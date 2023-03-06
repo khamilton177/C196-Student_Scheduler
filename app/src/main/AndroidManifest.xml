@@ -13,11 +13,32 @@
         android:theme="@style/Theme.C196StudentScheduler"
         tools:targetApi="31">
         <activity
+            android:name=".UI.AssessmentDetailsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".UI.CourseDetailsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".UI.TermDetailsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".UI.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home"
             android:parentActivityName=".UI.MainActivity">
-        <meta-data
+            <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
