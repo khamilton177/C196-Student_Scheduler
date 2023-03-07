@@ -18,6 +18,7 @@ import androidx.room.PrimaryKey;
                             childColumns = "instructor_id")})
 public class Course {
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     @ColumnInfo(name = "id")
     private int courseID;
 
@@ -39,6 +40,7 @@ public class Course {
     private String notes;
 
     @NonNull
+    @ColumnInfo(name = "instructor_id")
     private int instructorID;
 
     /**
@@ -138,7 +140,7 @@ public class Course {
     /**
      * Inner enum Class hold ENUM values used to populate the Course 'status' field without creating a status table.
      */
-    private enum CourseStatus {
+    public enum CourseStatus {
         WIP("In Progress"),
         COMP("Completed"),
         DROP("Dropped"),
@@ -154,5 +156,4 @@ public class Course {
             return status;
         }
     }
-
 }

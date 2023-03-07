@@ -15,6 +15,7 @@ import androidx.room.PrimaryKey;
                         childColumns = "course_id"))
 public class Assessment {
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     @ColumnInfo(name = "id")
     private int assessmentID;
 
@@ -69,7 +70,7 @@ public class Assessment {
     /**
      * Inner enum Class for type field.
      */
-    private enum AssessmentType {
+    public enum AssessmentType {
         OBJECTIVE, PERFORMANCE;
     }
 
