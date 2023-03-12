@@ -6,4 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".UI.TermDetailsActivity">
 
+    <ScrollView
+        android:id="@+id/detailsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:labelFor="@+id/termTitleInput"
+                android:id="@+id/termTitleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/term_title"
+                tools:layout_editor_absoluteX="66dp"
+                tools:layout_editor_absoluteY="138dp" />
+            <EditText
+                android:id="@+id/termTitleInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:labelFor="@+id/termStartInput"
+                    android:id="@+id/termStartLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/term_start"
+                    tools:layout_editor_absoluteX="145dp"
+                    tools:layout_editor_absoluteY="138dp" />
+                <EditText
+                    android:id="@+id/termStartInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="" />
+
+                <TextView
+                    android:labelFor="@+id/termEndInput"
+                    android:id="@+id/termEndLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/term_end"
+                    tools:layout_editor_absoluteX="66dp"
+                    tools:layout_editor_absoluteY="106dp" />
+                <EditText
+                    android:id="@+id/termEndInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/checkSave"
+        android:onClick="onCheckSaveClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

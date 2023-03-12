@@ -1,6 +1,8 @@
 package com.thecodebarista.c196_studentscheduler.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -12,7 +14,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        // setContentView(R.layout.activity_home);
+        // RecyclerView recyclerView = findViewById(R.id.currentTermRecyclerView);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

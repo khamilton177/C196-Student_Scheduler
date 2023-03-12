@@ -24,11 +24,11 @@ public interface CourseDao {
     void delete(Course course);
 
     @Query("SELECT * FROM courses ORDER BY id ASC")
-    List<Term> getAllCourses();
+    List<Course> getAllCourses();
 
     @Query("SELECT * FROM courses WHERE term_id = :termID ORDER BY id ASC")
-    List<Term> getAllTermCourses(int termID);
+    List<Course> getAllTermCourses(int termID);
 
     @Query("SELECT * FROM courses WHERE status = :courseStatus ORDER BY id ASC")
-    List<Term> getAllCoursesByStatus(Course.CourseStatus courseStatus);
+    List<Course> getCoursesByStatus(Course.CourseStatus courseStatus);
 }

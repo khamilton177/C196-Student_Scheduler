@@ -25,11 +25,11 @@ public interface AssessmentDao {
     void delete(Assessment assessment);
 
     @Query("SELECT * FROM assessments ORDER BY id ASC")
-    List<Term> getAllAssessments();
+    List<Assessment> getAllAssessments();
 
     @Query("SELECT * FROM assessments WHERE type = :type ORDER BY id ASC")
-    List<Term> getAssessmentsByType(Assessment.AssessmentType type);
+    List<Assessment> getAssessmentsByType(Assessment.AssessmentType type);
 
     @Query("SELECT * FROM assessments WHERE course_id = :courseID ORDER BY id ASC")
-    List<Term> getAllCourseAssessments(int courseID);
+    List<Assessment> getAllCourseAssessments(int courseID);
 }

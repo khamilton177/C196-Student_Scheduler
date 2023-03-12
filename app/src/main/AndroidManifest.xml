@@ -14,26 +14,30 @@
         tools:targetApi="31">
         <activity
             android:name=".UI.AssessmentDetailsActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".UI.AssessmentsActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".UI.CourseDetailsActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".UI.CoursesActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".UI.TermDetailsActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/title_activity_term_details"
+            android:parentActivityName=".UI.TermsActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
+        <!-- activity
             android:name=".UI.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home"
@@ -41,12 +45,13 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity>
+        </activity -->
         <activity
             android:name=".UI.TermsActivity"
             android:exported="false"
             android:label="@string/title_activity_terms"
-            android:parentActivityName=".UI.HomeActivity">
+            android:parentActivityName=".UI.MainActivity">
+            <!-- android:parentActivityName=".UI.HomeActivity" -->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

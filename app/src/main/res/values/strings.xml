@@ -24,4 +24,23 @@
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="save">Save</string>
+
+
+    <string name="view_term">Term:</string>
+    <string name="view_course">Course:</string>
+    <string name="view_assessment">Assessment:</string>
+    <string name="no_term">No Terms Found</string>
+    <string name="no_course">No Courses Found</string>
+    <string name="no_assessment">No Assessment Found</string>
+    <string name="no_instructor">No Instructor Found</string>
+    <string name="title_activity_term_details">%1$s %2$d</string>
+
+    <string name="instructor_info">Course Instructor\n%1$s</string>
+    <string name="term_id">Term ID</string>
+    <string name="term_title">Title</string>
+    <string name="term_start">Start Date:</string>
+    <string name="term_end">End Date:</string>
+
+
 </resources>

@@ -128,28 +128,63 @@ public class StudentSchedulerRepo {
 
     public List<Term> getAllTerms() {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            termDao.getAllTerms();
+            allTerms = termDao.getAllTerms();
         });
         return allTerms;
     }
 
     public List<Course> getAllCourses() {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            courseDao.getAllCourses();
+            allCourses = courseDao.getAllCourses();
         });
         return allCourses;
     }
 
     public List<Assessment> getAllAssessments() {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            assessmentDao.getAllAssessments();
+            allAssessments = assessmentDao.getAllAssessments();
         });
         return allAssessments;
     }
 
     public List<Instructor> getAllInstructors() {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            instructorDao.getAllInstructors();
+            allInstructors = instructorDao.getAllInstructors();
+        });
+        return allInstructors;
+    }
+
+    public List<Course> getAllTermCourses(int termID) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            allCourses = courseDao.getAllTermCourses(termID);
+        });
+        return allCourses;
+    }
+
+    public List<Course> getCoursesByStatus(Course.CourseStatus courseStatus) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            allCourses = courseDao.getCoursesByStatus(courseStatus);
+        });
+        return allCourses;
+    }
+
+    public List<Assessment> getAssessmentsByType(Assessment.AssessmentType type) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            allAssessments = assessmentDao.getAssessmentsByType(type);
+        });
+        return allAssessments;
+    }
+
+    public List<Assessment> getAllCourseAssessments(int courseID) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            allAssessments = assessmentDao.getAllCourseAssessments(courseID);
+        });
+        return allAssessments;
+    }
+
+    public List<Instructor> getInstructorByCourse(int courseID) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            allInstructors = instructorDao.getInstructorByCourse(courseID);
         });
         return allInstructors;
     }
