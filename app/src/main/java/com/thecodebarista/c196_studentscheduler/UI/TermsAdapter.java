@@ -16,7 +16,7 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 import java.util.List;
 
 public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.TermsViewHolder> {
-    private List<Term> terms;
+    private List<Term> mTerms;
     private final Context context;
     private final LayoutInflater inflater;
 
@@ -26,8 +26,9 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.TermsViewHol
     }
 
     public void setTerms(List<Term> terms){
-        this.terms = terms;
-        notifyItemInserted(0);
+        mTerms = terms;
+        //notifyItemInserted(0);
+        notifyDataSetChanged();
     }
 
     class TermsViewHolder extends RecyclerView.ViewHolder {
@@ -35,12 +36,12 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.TermsViewHol
 
         public TermsViewHolder(@NonNull View itemView) {
             super(itemView);
-            termItemView = itemView.findViewById(R.id.termTitleEdit);
+            termItemView = itemView.findViewById(R.id.termItem);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    final Term latest = terms.get(position);
+                    final Term latest = mTerms.get(position);
                     Intent intent= new Intent(context,TermDetailsActivity.class);
                     intent.putExtra("termID", latest.getTermID());
                     intent.putExtra("title", latest.getTitle());
@@ -55,24 +56,26 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.TermsViewHol
     @NonNull
     @Override
     public TermsAdapter.TermsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //context = parent.getContext();
+        //LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.item_term, parent, false);
-
         return new TermsViewHolder (itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TermsAdapter.TermsViewHolder holder, int position) {
-        if (terms != null) {
-            Term latest = terms.get(position);
+        if (mTerms != null) {
+            Term latest = mTerms.get(position);
             holder.termItemView.setText(latest.getTitle());
+        } else {
+            holder.termItemView.setText("No Terms Found");
         }
-        holder.termItemView.setText("@string/no_term");
     }
 
     @Override
     public int getItemCount() {
-        if (terms != null) {
-            return terms.size();
+        if (mTerms != null) {
+            return mTerms.size();
         } else {
             return 0;
         }

@@ -34,7 +34,7 @@
     <string name="no_course">No Courses Found</string>
     <string name="no_assessment">No Assessment Found</string>
     <string name="no_instructor">No Instructor Found</string>
-    <string name="title_activity_term_details">%1$s %2$d</string>
+    <string name="title_activity_term_details">Term Details</string>
 
     <string name="instructor_info">Course Instructor\n%1$s</string>
     <string name="term_id">Term ID</string>

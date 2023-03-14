@@ -24,7 +24,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-            case R.id.save:
                 return true;
         }
         return super.onOptionsItemSelected(item);

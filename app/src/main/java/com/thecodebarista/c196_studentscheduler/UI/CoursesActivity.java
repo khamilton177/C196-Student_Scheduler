@@ -22,7 +22,6 @@ public class CoursesActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.add:
             case R.id.delete:
                 return true;
         }

@@ -15,13 +15,12 @@ import com.thecodebarista.c196_studentscheduler.entities.Course;
 import com.thecodebarista.c196_studentscheduler.entities.Instructor;
 import com.thecodebarista.c196_studentscheduler.entities.Term;
 
-@Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 1)
+@Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 4, exportSchema = false)
 public abstract class StudentSchedulerDb extends RoomDatabase {
-
-    private static final String DATABASE_NAME = "student_scheduler.db";
     private static volatile StudentSchedulerDb DB_INSTANCE;
+    private static final String DATABASE_NAME = "student_scheduler.db";
 
-    public static StudentSchedulerDb getInstance(Context context) {
+    public static StudentSchedulerDb getDatabase(final Context context){
         if (DB_INSTANCE == null) {
             DB_INSTANCE = Room.databaseBuilder(context.getApplicationContext(), StudentSchedulerDb.class, DATABASE_NAME)
                     .allowMainThreadQueries()

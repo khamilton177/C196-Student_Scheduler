@@ -41,7 +41,7 @@ public class StudentSchedulerRepo {
      * @param application the Student Scheduler Application.
      */
     public StudentSchedulerRepo(Application application) {
-        StudentSchedulerDb db = StudentSchedulerDb.getInstance(application);
+        StudentSchedulerDb db = StudentSchedulerDb.getDatabase(application);
         termDao = db.termDao();
         courseDao = db.courseDao();
         assessmentDao = db.assessmentDao();

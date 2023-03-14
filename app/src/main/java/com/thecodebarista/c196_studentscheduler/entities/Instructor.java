@@ -25,7 +25,10 @@ public class Instructor {
     private int courseID;
 
     private String name;
+
+    @ColumnInfo(name = "phone_number")
     private String phoneNumber;
+
     private String email;
 
     /**

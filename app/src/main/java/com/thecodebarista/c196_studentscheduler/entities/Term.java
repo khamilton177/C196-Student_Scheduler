@@ -1,19 +1,23 @@
 package com.thecodebarista.c196_studentscheduler.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 /**
  * Pojo representing the database table terms.
  */
-@Entity (tableName = "terms")
+@Entity (tableName = "terms",
+        indices = {@Index(value = "title", unique = true)})
 public class Term {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int termID;
 
+    @NonNull
     private String title;
 
     @ColumnInfo(name="start_date")

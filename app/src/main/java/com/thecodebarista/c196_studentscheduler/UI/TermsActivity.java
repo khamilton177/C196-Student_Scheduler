@@ -1,11 +1,11 @@
 package com.thecodebarista.c196_studentscheduler.UI;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,28 +19,34 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 import java.util.List;
 
 public class TermsActivity extends AppCompatActivity {
+    private StudentSchedulerRepo studentSchedulerRepo;
 
     /**
      * Sets the elements of for the recycler view and repository list.
      * @return List of all terms
      */
-    private List<Term> termRepoConstruct() {
+    private void termRepoConstruct() {
+
+        if (studentSchedulerRepo == null) {
+            studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
+        }
+
+        List<Term> allTerms = studentSchedulerRepo.getAllTerms();
+        if (allTerms != null)
+            System.out.println("Term List Size " + allTerms.size());
         RecyclerView recyclerView = findViewById(R.id.termsRV);
         final TermsAdapter termsAdapter = new TermsAdapter(this);
         recyclerView.setAdapter(termsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        StudentSchedulerRepo studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
-        return studentSchedulerRepo.getAllTerms();
+        termsAdapter.setTerms(allTerms);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms);
-        List<Term> allTerms = termRepoConstruct();
-        final TermsAdapter termsAdapter = new TermsAdapter(this);
+        termRepoConstruct();
         FloatingActionButton fab = findViewById(R.id.fabPlusAdd);
-        termsAdapter.setTerms(allTerms);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,15 +55,12 @@ public class TermsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        List<Term> allTerms = termRepoConstruct();
-        final TermsAdapter termsAdapter = new TermsAdapter(this);
-        termsAdapter.setTerms(allTerms);
+        termRepoConstruct();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

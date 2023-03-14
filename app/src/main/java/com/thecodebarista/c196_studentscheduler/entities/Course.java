@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 /**
@@ -15,7 +16,8 @@ import androidx.room.PrimaryKey;
                         childColumns = "term_id"),
                         @ForeignKey(entity = Instructor.class,
                             parentColumns = "id",
-                            childColumns = "instructor_id")})
+                            childColumns = "instructor_id")},
+        indices = {@Index(value = "title", unique = true)})
 public class Course {
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -26,6 +28,7 @@ public class Course {
     @ColumnInfo(name = "term_id")
     private int termID;
 
+    @NonNull
     private String title;
 
     @ColumnInfo(name = "start_date")
