@@ -38,7 +38,7 @@ public class Course {
     private String endDt;
 
     @NonNull
-    private CourseStatus status;
+    private String status;
 
     private String notes;
 
@@ -64,7 +64,7 @@ public class Course {
      * @param instructorID Foreign Key Instructor ID
      */
     public Course(int courseID, int termID, String title, String startDt,
-                  String endDt, @NonNull CourseStatus status, String notes, int instructorID) {
+                  String endDt, @NonNull String status, String notes, int instructorID) {
         this.courseID = courseID;
         this.termID = termID;
         this.title = title;
@@ -116,11 +116,11 @@ public class Course {
     }
 
     @NonNull
-    public CourseStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(@NonNull CourseStatus status) {
+    public void setStatus(@NonNull String status) {
         this.status = status;
     }
 
@@ -149,14 +149,16 @@ public class Course {
         DROP("Dropped"),
         PLAN("Plan to Take");
 
-        private String status;
-
-        CourseStatus(String value) {
-            this.status = value;
+        public final String label;
+        CourseStatus(String label) {
+            this.label = label;
+        }
+        public String getLabel() {
+            return this.label;
         }
 
-        public String getStatus() {
-            return status;
+        public static CourseStatus getCourseStatus(String label) {
+            return CourseStatus.valueOf(label);
         }
     }
 }

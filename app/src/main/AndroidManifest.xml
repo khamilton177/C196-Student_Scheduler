@@ -15,6 +15,7 @@
         <activity
             android:name=".UI.AssessmentDetailsActivity"
             android:exported="false"
+            android:label="@string/title_activity_assessment_details"
             android:parentActivityName=".UI.AssessmentsActivity">
             <meta-data
                 android:name="android.app.lib_name"
@@ -23,6 +24,7 @@
         <activity
             android:name=".UI.CourseDetailsActivity"
             android:exported="false"
+            android:label="@string/title_activity_course_details"
             android:parentActivityName=".UI.CoursesActivity">
             <meta-data
                 android:name="android.app.lib_name"

@@ -41,6 +41,24 @@
     <string name="term_title">Title</string>
     <string name="term_start">Start Date:</string>
     <string name="term_end">End Date:</string>
+    <string name="no_terms">No Terms Found</string>
+    <string name="add_course">Add Course</string>
+    <string name="course_title">Title</string>
+    <string name="course_status">Status</string>
+    <string name="course_start">Start Date</string>
+    <string name="course_end">End Date</string>
+    <string name="course_notes">Notes</string>
+    <string name="instructor">Instructor</string>
+    <string name="seed">Add Seed Data</string>
+    <string name="add_assessment">Add Assessment</string>
+    <string name="title_activity_course_details">Course Details</string>
+    <string name="title_activity_assessment_details">Assessment Details</string>
 
+    <string-array name="course_instructors">
+        <item>"Professor Peabody", "347-555-2456", "prfpeadboyd@any.edu"</item>
+        <item>"Gabe Kotter", "917-321-1212", "mrkotter@any.edu"</item>
+        <item>"Raymond Geeter", "212-555-7777", "mrgeeter@any.edu"</item>
+        <item>"Connie Brooks", "516-456-1478", "ourmissbrooks@any.edu"</item>
+    </string-array>
 
 </resources>

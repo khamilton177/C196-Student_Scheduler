@@ -6,4 +6,5 @@ plugins {
 
 ext {
     roomVersion='2.4.3'
+    fragment_version = "1.5.5"
 }

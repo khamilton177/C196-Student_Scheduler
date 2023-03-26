@@ -46,7 +46,12 @@ public class StudentSchedulerRepo {
         courseDao = db.courseDao();
         assessmentDao = db.assessmentDao();
         instructorDao = db.instructorDao();
+    }
 
+    public void insert(Term term) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            termDao.insert(term);
+        });
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -54,82 +59,136 @@ public class StudentSchedulerRepo {
         }
     }
 
-    public void insert(Term term) {
-        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            termDao.insert(term);
-        });
-    }
-
     public void insert(Course course) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             courseDao.insert(course);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void insert(Assessment assessment) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             assessmentDao.insert(assessment);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void insert(Instructor instructor) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             instructorDao.insert(instructor);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(Term term) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             termDao.update(term);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(Course course) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             courseDao.update(course);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(Assessment assessment) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             assessmentDao.update(assessment);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(Instructor instructor) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             instructorDao.update(instructor);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void delete(Term term) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            termDao.insert(term);
+            termDao.delete(term);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void delete(Course course) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            courseDao.insert(course);
+            courseDao.delete(course);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void delete(Assessment assessment) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            assessmentDao.insert(assessment);
+            assessmentDao.delete(assessment);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void delete(Instructor instructor) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-            instructorDao.insert(instructor);
+            instructorDao.delete(instructor);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Term> getAllTerms() {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allTerms = termDao.getAllTerms();
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allTerms;
     }
 
@@ -137,6 +196,11 @@ public class StudentSchedulerRepo {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allCourses = courseDao.getAllCourses();
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allCourses;
     }
 
@@ -144,6 +208,11 @@ public class StudentSchedulerRepo {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allAssessments = assessmentDao.getAllAssessments();
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allAssessments;
     }
 
@@ -151,6 +220,11 @@ public class StudentSchedulerRepo {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allInstructors = instructorDao.getAllInstructors();
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allInstructors;
     }
 
@@ -158,6 +232,11 @@ public class StudentSchedulerRepo {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allCourses = courseDao.getAllTermCourses(termID);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allCourses;
     }
 
@@ -165,6 +244,11 @@ public class StudentSchedulerRepo {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allCourses = courseDao.getCoursesByStatus(courseStatus);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allCourses;
     }
 
@@ -172,6 +256,11 @@ public class StudentSchedulerRepo {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allAssessments = assessmentDao.getAssessmentsByType(type);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allAssessments;
     }
 
@@ -179,13 +268,24 @@ public class StudentSchedulerRepo {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allAssessments = assessmentDao.getAllCourseAssessments(courseID);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allAssessments;
     }
 
-    public List<Instructor> getInstructorByCourse(int courseID) {
+/*    public List<Instructor> getInstructorByCourse(int courseID) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             allInstructors = instructorDao.getInstructorByCourse(courseID);
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return allInstructors;
-    }
+    }*/
+
 }

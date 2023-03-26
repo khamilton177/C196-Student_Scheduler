@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.TermDetailsActivity"
-    tools:visibility="visible">
+    tools:context=".UI.InstructorDetailsActivity">
 
     <ScrollView
         android:id="@+id/detailsScroll"
@@ -17,94 +16,80 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical" >
             <TextView
-                android:id="@+id/termTitleLabel"
+                android:labelFor="@+id/courseIdInput"
+                android:id="@+id/courseIdLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:labelFor="@+id/termTitleInput"
                 android:text="@string/term_title"
                 tools:layout_editor_absoluteX="66dp"
                 tools:layout_editor_absoluteY="138dp" />
-
             <EditText
-                android:id="@+id/termTitleInput"
-                android:layout_width="match_parent"
+                android:id="@+id/courseIdInput"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint=""
-                android:minHeight="48dp" />
+                android:hint="" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/termStartLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/termStartInput"
-                    android:text="@string/term_start"
-                    tools:layout_editor_absoluteX="100%"
-                    tools:layout_editor_absoluteY="138dp" />
-
-                <EditText
-                    android:id="@+id/termStartInput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="" />
-
-                <TextView
-                    android:id="@+id/termEndLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/termEndInput"
-                    android:text="@string/term_end"
-                    tools:layout_editor_absoluteX="100%"
-                    tools:layout_editor_absoluteY="106dp" />
-
-                <EditText
-                    android:id="@+id/termEndInput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="" />
-
-            </LinearLayout>
+            <TextView
+                android:labelFor="@+id/instructorNameInput"
+                android:id="@+id/instructorNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/term_end"
+                tools:layout_editor_absoluteX="66dp"
+                tools:layout_editor_absoluteY="106dp" />
+            <EditText
+                android:id="@+id/instructorNameInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fabCheckSave"
+                <TextView
+                    android:labelFor="@+id/phoneNumberInput"
+                    android:id="@+id/phoneNumberLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:onClick="onCheckSaveClick"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+                    android:text="@string/term_title"
+                    tools:layout_editor_absoluteX="66dp"
+                    tools:layout_editor_absoluteY="138dp" />
+                <EditText
+                    android:id="@+id/phoneNumberInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="" />
+
+                <TextView
+                    android:labelFor="@+id/emailInput"
+                    android:id="@+id/emailLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/term_end"
+                    tools:layout_editor_absoluteX="66dp"
+                    tools:layout_editor_absoluteY="106dp" />
+                <EditText
+                    android:id="@+id/emailInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddCourse"
+        android:id="@+id/fabCheckSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
+        android:onClick="onCheckSaveClick"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_circle_24" />
+        app:srcCompat="@drawable/ic_baseline_check_circle_24" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/coursesRV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/detailsScroll"
-        app:layout_constraintLeft_toLeftOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

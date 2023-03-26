@@ -1,30 +1,65 @@
 package com.thecodebarista.c196_studentscheduler.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.thecodebarista.c196_studentscheduler.R;
+import com.thecodebarista.c196_studentscheduler.database.StudentSchedulerRepo;
+import com.thecodebarista.c196_studentscheduler.entities.Assessment;
+import com.thecodebarista.c196_studentscheduler.entities.Term;
+
+import java.util.List;
 
 public class AssessmentsActivity extends AppCompatActivity {
+    private StudentSchedulerRepo studentSchedulerRepo;
+
+    /**
+     * Sets the elements of for the recycler view and repository list.
+     * @return List of all assessments
+     */
+    private void assessmentRepoConstruct() {
+
+        if (studentSchedulerRepo == null) {
+            studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
+        }
+
+        List<Assessment> allAssessments = studentSchedulerRepo.getAllAssessments();
+        if (allAssessments != null)
+            System.out.println("Term List Size " + allAssessments.size());
+        RecyclerView recyclerView = findViewById(R.id.assessmentsRV);
+        final AssessmentsAdapter assessmentsAdapter = new AssessmentsAdapter(this);
+        recyclerView.setAdapter(assessmentsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        assessmentsAdapter.setAssessments(allAssessments);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assessments);
+        assessmentRepoConstruct();
+        FloatingActionButton fab = findViewById(R.id.fabPlusAdd);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AssessmentsActivity.this, AssessmentDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.delete:
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        assessmentRepoConstruct();
     }
 }

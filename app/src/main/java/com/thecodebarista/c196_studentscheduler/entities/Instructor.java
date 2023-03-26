@@ -10,19 +10,19 @@ import androidx.room.PrimaryKey;
 /**
  * Pojo representing the database table instructors.
  */
-@Entity (tableName = "instructors",
+@Entity (tableName = "instructors"/*,
         foreignKeys = @ForeignKey(entity = Course.class,
                 parentColumns = "id",
-                childColumns = "course_id"))
+                childColumns = "course_id")*/)
 public class Instructor {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
     private int instructorID;
 
-    @NonNull
+/*    @NonNull
     @ColumnInfo(name = "course_id")
-    private int courseID;
+    private int courseID;*/
 
     private String name;
 
@@ -40,17 +40,24 @@ public class Instructor {
     /**
      *
      * @param instructorID Primary Key Instructor ID
-     * @param courseID Foreign Key Course ID
+     * // @param courseID Foreign Key Course ID
      * @param name Instructor name
      * @param phoneNumber Instructor phone number
      * @param email Instructor email address
      */
-    public Instructor(int instructorID, int courseID, String name, String phoneNumber, String email) {
+    public Instructor(int instructorID, String name, String phoneNumber, String email) {
         this.instructorID = instructorID;
-        this.courseID = courseID;
+        // this.courseID = courseID;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+
+    public Instructor(int instructorID, String[] strings) {
+        this.instructorID = instructorID;
+        this.name = strings[0];
+        this.phoneNumber = strings[1];
+        this.email = strings[2];
     }
 
     public int getInstructorID() {
@@ -61,13 +68,15 @@ public class Instructor {
         this.instructorID = instructorID;
     }
 
-    public int getCourseID() {
+/*    public int getCourseID() {
         return courseID;
-    }
+    }*/
 
+/*
     public void setCourseID(int courseID) {
         this.courseID = courseID;
     }
+*/
 
     public String getName() {
         return name;
@@ -91,5 +100,11 @@ public class Instructor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + instructorID +
+                "] " + name;
     }
 }
