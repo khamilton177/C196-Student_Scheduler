@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Degree Planner</string>
 
-    <!-- Preference Titles -->
+    <!-- Notification Channel -->
+    <string name="channel_name">DegreePlannerChannel</string>
+    <string name="channel_description">Notifications for Degree Planner</string>
 
     <!-- Messages Preferences -->
 
@@ -12,21 +14,17 @@
     <string name="title_activity_assessments">Assessments</string>
     <string name="title_activity_instructors">Instructors</string>
 
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
+    <!-- Strings used for Menu navigation -->
     <string name="enter_button">Enter</string>
     <string name="icon_description">Graduation Cap</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
-
+    <!-- Strings used for Term Details -->
     <string name="view_term">Term:</string>
     <string name="view_course">Course:</string>
     <string name="view_assessment">Assessment:</string>
@@ -35,7 +33,11 @@
     <string name="no_assessment">No Assessment Found</string>
     <string name="no_instructor">No Instructor Found</string>
     <string name="title_activity_term_details">Term Details</string>
+    <string name="confDelTerm">Are you sure you want to delete this term?</string>
+    <string name="delete_all_term_courses">Delete All Term Courses</string>
+    <string name="CoursesRvLabel">Courses</string>
 
+    <!-- Strings used for Course Details -->
     <string name="instructor_info">Course Instructor\n%1$s</string>
     <string name="term_id">Term ID</string>
     <string name="term_title">Title</string>
@@ -43,22 +45,39 @@
     <string name="term_end">End Date:</string>
     <string name="no_terms">No Terms Found</string>
     <string name="add_course">Add Course</string>
-    <string name="course_title">Title</string>
+    <string name="course_title">Title: </string>
     <string name="course_status">Status</string>
-    <string name="course_start">Start Date</string>
-    <string name="course_end">End Date</string>
-    <string name="course_notes">Notes</string>
+    <string name="course_start">Start Date:</string>
+    <string name="course_end">End Date:</string>
+    <string name="course_notes">Notes:</string>
     <string name="instructor">Instructor</string>
     <string name="seed">Add Seed Data</string>
     <string name="add_assessment">Add Assessment</string>
     <string name="title_activity_course_details">Course Details</string>
-    <string name="title_activity_assessment_details">Assessment Details</string>
+    <string name="InstructorSpinnerLabel">Instructor:</string>
+    <string name="Type">Type</string>
+    <string name="course_id">Course ID</string>
+    <string name="share_notes">Share Notes</string>
+    <string name="confDelCourse">Are you sure you want to delete this course?</string>
+    <string name="StatusSpinnerLabel">Status:</string>
+    <string name="AssessmentsRvLabel">Assessments</string>
 
+    <!-- Strings used for Assessment Details -->
+    <string name="title_activity_assessment_details">Assessment Details</string>
+    <string name="TypeSpinnerLabel">Type:</string>
+    <string name="assessment_title">Title: </string>
+    <string name="assessment_start">Start Date:</string>
+    <string name="assessment_end">End Date:</string>
+    <string name="confDelAssessment">Are you sure you want to delete this assessment?</string>
+    <string name="AssessmentSpinnerLabel">Status:</string>
+    <string name="seedTerm">Seed Term Data For Testing</string>
+
+    <!-- Array used for Instructor Seed Data -->
     <string-array name="course_instructors">
-        <item>"Professor Peabody", "347-555-2456", "prfpeadboyd@any.edu"</item>
-        <item>"Gabe Kotter", "917-321-1212", "mrkotter@any.edu"</item>
-        <item>"Raymond Geeter", "212-555-7777", "mrgeeter@any.edu"</item>
-        <item>"Connie Brooks", "516-456-1478", "ourmissbrooks@any.edu"</item>
+        <item>Professor Peabody, 347-555-2456, prfpeadboyd@any.edu</item>
+        <item>Gabe Kotter, 917-321-1212, mrkotter@any.edu</item>
+        <item>Raymond Geeter, "212-555-7777", mrgeeter@any.edu</item>
+        <item>Connie Brooks, 516-456-1478, ourmissbrooks@any.edu</item>
     </string-array>
 
 </resources>

@@ -5,4 +5,8 @@
     <item android:id="@+id/addCourse"
         android:title="@string/add_course"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/deleteAllTermCourses"
+        android:title="@string/delete_all_term_courses"
+        app:showAsAction="never"/>
 </menu>

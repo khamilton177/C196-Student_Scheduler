@@ -44,7 +44,6 @@ public class TermsActivity extends AppCompatActivity {
         termsAdapter.setTerms(allTerms);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

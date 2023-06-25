@@ -6,36 +6,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.thecodebarista.c196_studentscheduler.R;
 import com.thecodebarista.c196_studentscheduler.database.StudentSchedulerRepo;
 import com.thecodebarista.c196_studentscheduler.entities.Instructor;
 
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DegreePlanner {
+    public static int alarmNumber;
     private StudentSchedulerRepo studentSchedulerRepo;
+    final Calendar calendar = Calendar.getInstance();
+
+    @Override
+    public boolean finishCallback() {
+        this.finish();
+        return true;
+    }
 
     public boolean loadInstructors() {
         studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
         List<Instructor> allInstructors = studentSchedulerRepo.getAllInstructors();
         if (allInstructors.isEmpty()) {
             String[] instructors = getApplicationContext().getResources().getStringArray(R.array.course_instructors);
-            System.out.println("DOING INSTRUCTOR ARRAY");
-            System.out.println("FROM INSTRUCTOR ARRAY: " + instructors.length);
-
-            //Instructor instructor = new Instructor(0, "Professor Peabody", "347-555-2456", "prfpeadboyd@any.edu");
-            //studentSchedulerRepo.insert(instructor);
 
             for (String s : instructors) {
                 String[] instructorArray = s.split(",");
-                System.out.println("FROM INSTRUCTOR NAME: " + instructorArray[0]);
-                System.out.println("FROM INSTRUCTOR PHONE: " + instructorArray[1]);
-                System.out.println("FROM INSTRUCTOR EMAIL: " + instructorArray[2]);
-
                 Instructor instructor = new Instructor(0, instructorArray[0], instructorArray[1], instructorArray[2]);
                 studentSchedulerRepo.insert(instructor);
             }
@@ -47,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadInstructors();
         Button enterBtn = findViewById(R.id.enterBtn);
         enterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 // Intent intent=new Intent(MainActivity.this, HomeActivity.class);
                 TermsAdapter.TERM_EDIT_MODE = true;
                 Intent intent=new Intent(MainActivity.this, TermsActivity.class);
-                intent.putExtra("isReadOnly", TermsAdapter.TERM_EDIT_MODE);
+                intent.putExtra("inEditMode", TermsAdapter.TERM_EDIT_MODE);
                 startActivity(intent);
             }
         });
@@ -68,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.seedData:
                 return loadInstructors();
+
+            case R.id.createMultipleTerms:
+                studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
+                seedTerms(calendar, studentSchedulerRepo);
         }
         return super.onOptionsItemSelected(item);
     }

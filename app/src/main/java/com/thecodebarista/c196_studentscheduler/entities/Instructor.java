@@ -1,5 +1,8 @@
 package com.thecodebarista.c196_studentscheduler.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -14,7 +17,7 @@ import androidx.room.PrimaryKey;
         foreignKeys = @ForeignKey(entity = Course.class,
                 parentColumns = "id",
                 childColumns = "course_id")*/)
-public class Instructor {
+public class Instructor implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
@@ -59,6 +62,25 @@ public class Instructor {
         this.phoneNumber = strings[1];
         this.email = strings[2];
     }
+
+    protected Instructor(Parcel in) {
+        instructorID = in.readInt();
+        name = in.readString();
+        phoneNumber = in.readString();
+        email = in.readString();
+    }
+
+    public static final Creator<Instructor> CREATOR = new Creator<Instructor>() {
+        @Override
+        public Instructor createFromParcel(Parcel in) {
+            return new Instructor(in);
+        }
+
+        @Override
+        public Instructor[] newArray(int size) {
+            return new Instructor[size];
+        }
+    };
 
     public int getInstructorID() {
         return instructorID;
@@ -106,5 +128,18 @@ public class Instructor {
     public String toString() {
         return "[" + instructorID +
                 "] " + name;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(instructorID);
+        dest.writeString(name);
+        dest.writeString(phoneNumber);
+        dest.writeString(email);
     }
 }

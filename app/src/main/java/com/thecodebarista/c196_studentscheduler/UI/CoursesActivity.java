@@ -18,7 +18,7 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 
 import java.util.List;
 
-public class CoursesActivity extends AppCompatActivity {
+public class CoursesActivity extends AppCompatActivity implements DegreePlanner {
     private StudentSchedulerRepo studentSchedulerRepo;
 
     /**
@@ -40,6 +40,13 @@ public class CoursesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         coursesAdapter.setCourses(allCourses);
     }
+
+    @Override
+    public boolean finishCallback() {
+        this.finish();
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

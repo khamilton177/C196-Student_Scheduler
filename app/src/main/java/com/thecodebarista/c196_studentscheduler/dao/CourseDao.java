@@ -13,7 +13,7 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 import java.util.List;
 
 @Dao
-public interface CourseDao {
+public interface    CourseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Course course);
 

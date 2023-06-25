@@ -16,17 +16,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_marginStart="5dp"
+            android:orientation="vertical"
+            android:scrollbars="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <Spinner
-                    android:id="@+id/statusSpinner"
-                    android:layout_width="409dp"
-                    android:layout_height="wrap_content"
-                    tools:layout_editor_absoluteX="1dp"
-                    tools:layout_editor_absoluteY="373dp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <!--
                 <TextView
                     android:labelFor="@+id/termIdInput"
                     android:id="@+id/termIdLabel"
@@ -35,39 +33,29 @@
                     android:text="@string/term_id"
                     tools:layout_editor_absoluteX="66dp"
                     tools:layout_editor_absoluteY="138dp" />
+ -->
                 <EditText
                     android:id="@+id/termIdInput"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="" />
-
-                <TextView
-                    android:labelFor="@+id/courseStatusInput"
-                    android:id="@+id/courseStatusLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/course_status"
-                    tools:layout_editor_absoluteX="66dp"
-                    tools:layout_editor_absoluteY="106dp" />
-                <EditText
-                    android:id="@+id/courseStatusInput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="" />
+                    android:layout_height="1dp"
+                    android:hint=""
+                    android:visibility="invisible" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:labelFor="@+id/courseTitleInput"
                     android:id="@+id/courseTitleLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@+id/courseTitleInput"
                     android:text="@string/course_title"
                     tools:layout_editor_absoluteX="66dp"
                     tools:layout_editor_absoluteY="138dp" />
+
                 <EditText
                     android:id="@+id/courseTitleInput"
                     android:layout_width="wrap_content"
@@ -77,27 +65,66 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
-                    android:labelFor="@+id/courseStartInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/StatusSpinnerLabel" />
+
+                <Spinner
+                    android:id="@+id/statusSpinner"
+                    android:layout_width="409dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    tools:layout_editor_absoluteX="1dp"
+                    tools:layout_editor_absoluteY="373dp" />
+                <!--
+                <TextView
+                    android:labelFor="@+id/courseStatusInput"
+                    android:id="@+id/courseStatusLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/course_status"
+                    tools:layout_editor_absoluteX="66dp"
+                    tools:layout_editor_absoluteY="106dp" />
+                -->
+                <EditText
+                    android:id="@+id/courseStatusInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint=""
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
                     android:id="@+id/courseStartLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@+id/courseStartInput"
                     android:text="@string/course_start"
                     tools:layout_editor_absoluteX="145dp"
                     tools:layout_editor_absoluteY="138dp" />
+
                 <EditText
                     android:id="@+id/courseStartInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="" />
+                    android:focusable="false"
+                    android:hint="Choose Start Date"
+                    android:inputType="none" />
 
                 <TextView
-                    android:labelFor="@+id/courseEndInput"
                     android:id="@+id/courseEndLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@+id/courseEndInput"
                     android:text="@string/course_end"
                     tools:layout_editor_absoluteX="66dp"
                     tools:layout_editor_absoluteY="106dp" />
@@ -106,53 +133,48 @@
                     android:id="@+id/courseEndInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="" />
+                    android:focusable="false"
+                    android:hint="Choose End Date" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/InstructorSpinnerLabel" />
                 <Spinner
                     android:id="@+id/instructorIdSpinner"
                     android:layout_width="409dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
                     tools:layout_editor_absoluteX="1dp"
                     tools:layout_editor_absoluteY="373dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
-                    android:labelFor="@+id/courseInstructorInput"
-                    android:id="@+id/courseInstructorLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/instructor"
-                    tools:layout_editor_absoluteX="66dp"
-                    tools:layout_editor_absoluteY="106dp" />
                 <EditText
-                    android:id="@+id/courseInstructorInput"
+                    android:id="@+id/courseInstructorIdInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="" />
+                    android:hint=""
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
-                    android:labelFor="@+id/courseNotesInput"
                     android:id="@+id/courseNotesLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@+id/courseNotesInput"
                     android:text="@string/course_notes"
                     tools:layout_editor_absoluteX="66dp"
                     tools:layout_editor_absoluteY="106dp" />
+
                 <EditText
                     android:id="@+id/courseNotesInput"
                     android:layout_width="wrap_content"
@@ -177,23 +199,55 @@
         </LinearLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/rvLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/rvDivider"
+        android:text="@string/AssessmentsRvLabel"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsScroll" />
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/rvDivider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        app:dividerInsetEnd="16dp"
+        app:dividerInsetStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/rvLabel" />
+
+    <ScrollView
+        android:id="@+id/rvScroller"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/rvDivider"
+        app:layout_constraintBottom_toTopOf="@id/fabAddAssessment"
+        tools:layout_editor_absoluteX="-14dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/assessmentsRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+    </ScrollView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddAssessment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_circle_24" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/assessmentsRV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/detailsScroll"
-        app:layout_constraintLeft_toLeftOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

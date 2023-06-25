@@ -25,6 +25,7 @@ public class StudentSchedulerRepo {
     private List<Course> allCourses;
     private List<Assessment> allAssessments;
     private List<Instructor> allInstructors;
+    private Instructor instructor;
 
     /**
      * Allowed Thread Pool count.
@@ -274,6 +275,18 @@ public class StudentSchedulerRepo {
             e.printStackTrace();
         }
         return allAssessments;
+    }
+
+    public Instructor getInstructor(int instructorID) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+             instructor = instructorDao.getInstructor(instructorID);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return instructor;
     }
 
 /*    public List<Instructor> getInstructorByCourse(int courseID) {

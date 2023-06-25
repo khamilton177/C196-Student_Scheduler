@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.thecodebarista.c196_studentscheduler.R;
 import com.thecodebarista.c196_studentscheduler.entities.Assessment;
-import com.thecodebarista.c196_studentscheduler.entities.Course;
 
 import java.util.List;
 
 public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.AssessmentViewHolder> {
+    protected static boolean ASSESSMENT_EDIT_MODE;
 
     private List<Assessment> Assessments;
     private final Context context;
@@ -43,11 +43,13 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
                 public void onClick(View view) {
                     int position = getBindingAdapterPosition();
                     final Assessment latest = Assessments.get(position);
-                    Intent intent= new Intent(context,CourseDetailsActivity.class);
-                    intent.putExtra("courseID", latest.getCourseID());
+                    com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE = false;
+                    Intent intent= new Intent(context,AssessmentDetailsActivity.class);
+                    intent.putExtra("assessmentID", latest.getAssessmentID());
                     System.out.println("Selected - " + latest.getCourseID());
+                    intent.putExtra("courseID", latest.getCourseID());
+                    intent.putExtra("assessmentType", latest.getAssessmentType());
                     intent.putExtra("assessmentTitle", latest.getAssessmentTitle());
-                    intent.putExtra("type", latest.getType());
                     intent.putExtra("startDt", latest.getStartDt());
                     intent.putExtra("endDt", latest.getEndDt());
                     context.startActivity(intent);

@@ -26,7 +26,8 @@ public class Assessment {
     private int courseID;
 
     @NonNull
-    private AssessmentType type;
+    @ColumnInfo(name = "type")
+    private String assessmentType;
 
     @NonNull
     @ColumnInfo(name = "title")
@@ -48,15 +49,16 @@ public class Assessment {
      * All Course persisted member Constructor.
      * @param assessmentID Primary Key Assessment ID
      * @param courseID Foreign Key Course ID
-     * @param type Assessment Type
+     * @param assessmentType Assessment Type
      * @param assessmentTitle Assessment Title
      * @param startDt Assessment Start Date
      * @param endDt Assessment End Date
      */
-    public Assessment(int assessmentID, int courseID, AssessmentType type, @NonNull String assessmentTitle, String startDt, String endDt) {
+    public Assessment(int assessmentID, int courseID, @NonNull String assessmentType,
+                      String assessmentTitle, String startDt, String endDt) {
         this.assessmentID = assessmentID;
         this.courseID = courseID;
-        this.type = type;
+        this.assessmentType = assessmentType;
         this.assessmentTitle = assessmentTitle;
         this.startDt = startDt;
         this.endDt = endDt;
@@ -79,12 +81,12 @@ public class Assessment {
     }
 
     @NonNull
-    public AssessmentType getType() {
-        return type;
+    public String getAssessmentType() {
+        return assessmentType;
     }
 
-    public void setType(@NonNull AssessmentType type) {
-        this.type = type;
+    public void setAssessmentType(@NonNull String type) {
+        this.assessmentType = type;
     }
 
     @NonNull
@@ -113,9 +115,13 @@ public class Assessment {
     }
 
     /**
-     * Inner enum Class for type field.
+     * Inner enum Class for assessmentType field.
      */
     public enum AssessmentType {
         OBJECTIVE, PERFORMANCE;
+
+        public String getAssessmentType() {
+            return this.name();
+        }
     }
 }

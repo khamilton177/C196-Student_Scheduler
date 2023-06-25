@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.thecodebarista.c196_studentscheduler.entities.Assessment;
 import com.thecodebarista.c196_studentscheduler.entities.Term;
 
 import java.util.List;

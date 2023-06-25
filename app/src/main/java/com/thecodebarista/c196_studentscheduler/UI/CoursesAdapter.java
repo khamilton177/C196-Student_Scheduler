@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.thecodebarista.c196_studentscheduler.R;
+import com.thecodebarista.c196_studentscheduler.dao.InstructorDao;
+import com.thecodebarista.c196_studentscheduler.database.StudentSchedulerRepo;
 import com.thecodebarista.c196_studentscheduler.entities.Course;
+import com.thecodebarista.c196_studentscheduler.entities.Instructor;
 
 import java.util.List;
 
@@ -47,13 +50,15 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
                     Intent intent= new Intent(context,CourseDetailsActivity.class);
                     intent.putExtra("courseID", latest.getCourseID());
                     System.out.println("Selected - " + latest.getTermID());
-                    //intent.putExtra("termID", latest.getTermID());
+                    intent.putExtra("termID", latest.getTermID());
                     intent.putExtra("title", latest.getTitle());
                     intent.putExtra("status", latest.getStatus());
                     intent.putExtra("startDt", latest.getStartDt());
                     intent.putExtra("endDt", latest.getEndDt());
-                    intent.putExtra("instructor", latest.getInstructorID());
+                    intent.putExtra("instructorID", latest.getInstructorID());
+                    intent.putExtra("spinnerInstructor", latest.getInstructorID());
                     intent.putExtra("notes", latest.getNotes());
+                    intent.putExtra("coursePosition", position);
                     context.startActivity(intent);
                 }
             });

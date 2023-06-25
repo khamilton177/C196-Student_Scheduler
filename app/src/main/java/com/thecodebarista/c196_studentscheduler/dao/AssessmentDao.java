@@ -27,9 +27,9 @@ public interface AssessmentDao {
     @Query("SELECT * FROM assessments ORDER BY id ASC")
     List<Assessment> getAllAssessments();
 
-    @Query("SELECT * FROM assessments WHERE type = :type ORDER BY id ASC")
-    List<Assessment> getAssessmentsByType(Assessment.AssessmentType type);
-
     @Query("SELECT * FROM assessments WHERE course_id = :courseID ORDER BY id ASC")
     List<Assessment> getAllCourseAssessments(int courseID);
+
+    @Query("SELECT * FROM assessments WHERE type = :assessmentType ORDER BY id ASC")
+    List<Assessment> getAssessmentsByType(Assessment.AssessmentType assessmentType);
 }

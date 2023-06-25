@@ -53,7 +53,8 @@
                     android:id="@+id/termStartInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="" />
+                    android:hint="Choose Start Date"
+                    android:focusable="false"/>
 
                 <TextView
                     android:id="@+id/termEndLabel"
@@ -68,8 +69,8 @@
                     android:id="@+id/termEndInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="" />
-
+                    android:hint="Choose End Date"
+                    android:focusable="false"/>
             </LinearLayout>
 
             <LinearLayout
@@ -89,22 +90,60 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddCourse"
+    <TextView
+        android:id="@+id/rvLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:labelFor="@+id/rvDivider"
+        android:text="@string/CoursesRvLabel"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsScroll" />
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/rvDivider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        app:dividerInsetEnd="16dp"
+        app:dividerInsetStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/rvLabel" />
+
+    <ScrollView
+        android:id="@+id/rvScroller"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/rvDivider"
+        app:layout_constraintBottom_toTopOf="@id/fabAddCourse"
+        tools:layout_editor_absoluteX="-14dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/coursesRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toBottomOf="@id/rvDivider"
+            app:layout_constraintLeft_toLeftOf="parent" />
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddCourse"
+        android:tooltipText="Add Course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_circle_24" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/coursesRV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/detailsScroll"
-        app:layout_constraintLeft_toLeftOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

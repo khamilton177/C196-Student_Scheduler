@@ -18,7 +18,7 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 
 import java.util.List;
 
-public class AssessmentsActivity extends AppCompatActivity {
+public class AssessmentsActivity extends AppCompatActivity  implements DegreePlanner{
     private StudentSchedulerRepo studentSchedulerRepo;
 
     /**
@@ -33,12 +33,18 @@ public class AssessmentsActivity extends AppCompatActivity {
 
         List<Assessment> allAssessments = studentSchedulerRepo.getAllAssessments();
         if (allAssessments != null)
-            System.out.println("Term List Size " + allAssessments.size());
+            System.out.println("Assessment List Size " + allAssessments.size());
         RecyclerView recyclerView = findViewById(R.id.assessmentsRV);
         final AssessmentsAdapter assessmentsAdapter = new AssessmentsAdapter(this);
         recyclerView.setAdapter(assessmentsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         assessmentsAdapter.setAssessments(allAssessments);
+    }
+
+    @Override
+    public boolean finishCallback() {
+        this.finish();
+        return true;
     }
 
     @Override
@@ -51,7 +57,9 @@ public class AssessmentsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE = true;
                 Intent intent = new Intent(AssessmentsActivity.this, AssessmentDetailsActivity.class);
+                intent.putExtra("inEditMode", com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE);
                 startActivity(intent);
             }
         });

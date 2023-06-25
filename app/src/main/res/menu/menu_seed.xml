@@ -5,4 +5,8 @@
     <item android:id="@+id/seedData"
         android:title="@string/seed"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/createMultipleTerms"
+        android:title="@string/seedTerm"
+        app:showAsAction="never"/>
 </menu>

@@ -10,6 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.thecodebarista.c196_studentscheduler.R;
+import com.thecodebarista.c196_studentscheduler.UI.MainActivity;
 import com.thecodebarista.c196_studentscheduler.dao.AssessmentDao;
 import com.thecodebarista.c196_studentscheduler.dao.CourseDao;
 import com.thecodebarista.c196_studentscheduler.dao.InstructorDao;
@@ -25,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 19, exportSchema = false)
+@Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 21, exportSchema = false)
 public abstract class StudentSchedulerDb extends RoomDatabase {
     private static volatile StudentSchedulerDb DB_INSTANCE;
     private static final String DATABASE_NAME = "student_scheduler.db";
@@ -33,31 +34,18 @@ public abstract class StudentSchedulerDb extends RoomDatabase {
 
     public static StudentSchedulerDb getDatabase(final Context context){
         final Context appContext = context.getApplicationContext();
-
-        RoomDatabase.Callback seedInstructor = new RoomDatabase.Callback() {
+ /*
+       RoomDatabase.Callback seedInstructor = new RoomDatabase.Callback() {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
 
-                /*
                 StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
                     Resources resource = appContext.getResources();
-                    String[] instructors = resource.getStringArray(R.array.course_instructors);
                     System.out.println("DOING INSTRUCTOR CALLBACK");
-                    Instructor instructor = new Instructor(0, "Professor Peabody", "347-555-2456", "prfpeadboyd@any.edu");
-                    DB_INSTANCE.instructorDao().insert(instructor);
-
-                    for ( int i=0; i < instructors.length; ++i) {
-                        System.out.println("FROM INSTRUCTOR ARRAY: " + instructors[i]);
-                        Instructor instructor = new Instructor(0, new String[]{instructors[i]});
-                        DB_INSTANCE.instructorDao().insert(instructor);
-                    }
-
                 });
-
-                 */
             }
         };
-
+*/
         if (DB_INSTANCE == null) {
             DB_INSTANCE = Room.databaseBuilder(appContext, StudentSchedulerDb.class, DATABASE_NAME)
                     .allowMainThreadQueries()

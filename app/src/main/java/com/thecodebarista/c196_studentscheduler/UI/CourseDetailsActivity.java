@@ -1,9 +1,13 @@
 package com.thecodebarista.c196_studentscheduler.UI;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -23,15 +28,22 @@ import com.thecodebarista.c196_studentscheduler.entities.Instructor;
 import com.thecodebarista.c196_studentscheduler.entities.Term;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class CourseDetailsActivity extends AppCompatActivity {
+public class CourseDetailsActivity extends AppCompatActivity implements DegreePlanner {
+   // public final void ACTION_FINISH = finish();
     private EditText termIdTextInput;
     private EditText titleTextInput;
+    final Calendar dpStartDtCalendar = Calendar.getInstance();
+    final Calendar dpEndDtCalendar = Calendar.getInstance();
+    DatePickerDialog.OnDateSetListener dpStartDate;
+    DatePickerDialog.OnDateSetListener dpEndDate;
     private EditText startTextInput;
     private EditText endTextInput;
     private EditText statusTextInput;
     private EditText instructorIdTextInput;
+    private EditText instructorNameTextInput;
     private EditText notesTextInput;
     FloatingActionButton fabCheckSave;
     FloatingActionButton fabAddAssessment;
@@ -44,26 +56,42 @@ public class CourseDetailsActivity extends AppCompatActivity {
     private String startDt;
     private String endDt;
     private int instructorID;
-    private String instructor; // not in model
+    private String instructorName; // not in model
     private String notes;
     private boolean inEditMode;
     private boolean showSave;
+    CoursesAdapter updateAdapter;
     Term selectedTerm;
     Course selectedCourse;
+    int coursePosition;
     Assessment selectedAssessment;
     Instructor selectedInstructor;
     StudentSchedulerRepo studentSchedulerRepo;
+    RecyclerView recyclerView;
+    Spinner spinnerStatus;
+    Spinner spinnerInstructor;
+    AlertDialog confDelItem;
+
+/*
+    private void enableInputs() {
+        titleTextInput.setEnabled(true);
+        startTextInput.setEnabled(true);
+        endTextInput.setEnabled(true);
+    }
+*/
 
     private void intentSetCourseDetailData() {
+        studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
         termIdTextInput = findViewById(R.id.termIdInput);
         titleTextInput = findViewById(R.id.courseTitleInput);
         statusTextInput = findViewById(R.id.courseStatusInput);
         startTextInput = findViewById(R.id.courseStartInput);
         endTextInput = findViewById(R.id.courseEndInput);
-        instructorIdTextInput = findViewById(R.id.courseInstructorInput);
+        instructorIdTextInput = findViewById(R.id.courseInstructorIdInput);
         notesTextInput = findViewById(R.id.courseNotesInput);
         fabCheckSave = findViewById(R.id.fabCheckSave);
         fabAddAssessment = findViewById(R.id.fabAddAssessment);
+        // enableInputs();
         courseID = getIntent().getIntExtra("courseID",-1);
         termID = getIntent().getIntExtra("termID", -1);
         title = getIntent().getStringExtra("title");
@@ -72,10 +100,14 @@ public class CourseDetailsActivity extends AppCompatActivity {
         startDt = getIntent().getStringExtra("startDt");
         endDt = getIntent().getStringExtra("endDt");
         instructorID = getIntent().getIntExtra("instructorID",-1);
+        if (courseID > 0 ) {
+            selectedInstructor = studentSchedulerRepo.getInstructor(getIntent().getIntExtra("spinnerInstructor", -1));
+            // instructorName = selectedInstructor.getName();
+            coursePosition = getIntent().getIntExtra("coursePosition", -1);
+        }
         notes = getIntent().getStringExtra("notes");
         inEditMode = getIntent().getBooleanExtra("inEditMode", false);
         showSave = getIntent().getBooleanExtra("showSave", false);
-        studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
         setCourseDetailData();
         setCourseTextEditable(inEditMode);
 
@@ -92,7 +124,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         statusTextInput = findViewById(R.id.courseStatusInput);
         startTextInput = findViewById(R.id.courseStartInput);
         endTextInput = findViewById(R.id.courseEndInput);
-        instructorIdTextInput = findViewById(R.id.courseInstructorInput);
+        instructorIdTextInput = findViewById(R.id.courseInstructorIdInput);
         notesTextInput = findViewById(R.id.courseNotesInput);
         titleTextInput.setEnabled(canEdit);
         startTextInput.setEnabled(canEdit);
@@ -103,7 +135,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
             fabCheckSave.setVisibility(View.VISIBLE);
             fabAddAssessment.setVisibility(View.INVISIBLE);
         } else {
-            fabCheckSave.setVisibility(View.INVISIBLE);
+            fabCheckSave.setVisibility(View.GONE);
             fabAddAssessment.setVisibility(View.VISIBLE);
         }
     }
@@ -116,13 +148,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
         endTextInput.setText(endDt);
         instructorIdTextInput.setText(String.valueOf(instructorID));
         notesTextInput.setText(notes);
-        System.out.println(termIdTextInput.getText());
-        System.out.println(titleTextInput.getText());
-        System.out.println(statusTextInput.getText());
-        System.out.println(startTextInput.getText());
-        System.out.println(endTextInput.getText());
-        System.out.println(instructorIdTextInput.getText());
-        System.out.println(notesTextInput.getText());
+        System.out.println("Term ID " + termIdTextInput.getText());
+        System.out.println("Course Title " + titleTextInput.getText());
+        System.out.println("Course Status " + statusTextInput.getText());
+        System.out.println("Course Start " + startTextInput.getText());
+        System.out.println("Course End " + endTextInput.getText());
+        System.out.println("Instructor ID " + instructorIdTextInput.getText());
+        System.out.println("Course Notes " + notesTextInput.getText());
     }
 
     private Course createCourseDetailData() {
@@ -147,8 +179,29 @@ public class CourseDetailsActivity extends AppCompatActivity {
         }
         else{
             studentSchedulerRepo.update(course);
+            System.out.println("Course List INDEX: " + coursePosition);
+            //updateAdapter.notifyItemChanged(coursePosition);
         }
+
+        //Process pending Notifications for Start date.
+        Long startTrigger = CreateTriggerDate(startTextInput.getText().toString());
+        CreatePendingIntent(CourseDetailsActivity.this, startTrigger, titleTextInput.getText().toString(), COURSE_START_DATE_NOTIFY, startTextInput.getText().toString());
+
+        //Process pending Notifications for End date.
+        Long endTrigger = CreateTriggerDate(endTextInput.getText().toString());
+        CreatePendingIntent(CourseDetailsActivity.this, endTrigger, titleTextInput.getText().toString(), COURSE_END_DATE_NOTIFY, endTextInput.getText().toString());
+
+        selectedInstructor = studentSchedulerRepo.getInstructor(Integer.parseInt(instructorIdTextInput.getText().toString()));
         setCourseTextEditable(false);
+        spinnerStatus.setEnabled(false);
+        spinnerInstructor.setEnabled(false);
+        //finish();
+    }
+
+    @Override
+    public boolean finishCallback() {
+        this.finish();
+        return true;
     }
 
     @Override
@@ -165,11 +218,16 @@ public class CourseDetailsActivity extends AppCompatActivity {
         }
 
         //Create Status Spinner (dropdown)
-        Spinner spinnerStatus = findViewById(R.id.statusSpinner);
+        spinnerStatus = findViewById(R.id.statusSpinner);
         ArrayAdapter courseStatusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, courseStatuses);
         spinnerStatus.setAdapter(courseStatusAdapter);
         String statusDefault = "Plan to Take";
+        if (courseID > 0) {
+            spinnerStatus.setEnabled(true);
+            statusDefault = Course.CourseStatus.getCourseStatus(statusTextInput.getText().toString()).getLabel();
+        }
         spinnerStatus.setSelection(courseStatusAdapter.getPosition(statusDefault));
+        spinnerStatus.setEnabled(fabCheckSave.getVisibility() == View.VISIBLE);
         spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -178,6 +236,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 System.out.println("STATUS LABEL: " + val);
                 statusTextInput.setText(String.format("%s", Course.CourseStatus.values()[spinnerStatus.getSelectedItemPosition()])); //set input field to string of ENUM for DB.
                 System.out.println(String.format("DEFAULT STATUS ENUM? %s", Course.CourseStatus.values()[spinnerStatus.getSelectedItemPosition()])); //GOOD
+                //courseStatusAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -187,21 +246,36 @@ public class CourseDetailsActivity extends AppCompatActivity {
         });
 
         //Create Instructor spinner (dropdown)
+        spinnerInstructor = findViewById(R.id.instructorIdSpinner);
         studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
-        Spinner spinnerInstructor = findViewById(R.id.instructorIdSpinner);
         ArrayAdapter<Instructor> courseInstructorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, studentSchedulerRepo.getAllInstructors());
         spinnerInstructor.setAdapter(courseInstructorAdapter);
+        int pos = 0;
+        if (courseID > 0) {
+            spinnerInstructor.setEnabled(true);
+            for (int count = 0; count < courseInstructorAdapter.getCount(); count++) {
+                if (courseInstructorAdapter.getItem(count).toString().equals(selectedInstructor.toString())) {
+                    System.out.println(String.format("Found %s \nCount is #%d", courseInstructorAdapter.getItem(count).toString(), count));
+                    pos = count;
+                    break;
+                }
+            }
+            spinnerInstructor.setSelection(pos);
+        }
+        spinnerInstructor.setEnabled(fabCheckSave.getVisibility() == View.VISIBLE);
         spinnerInstructor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String val;
-                // set dropdown value to empty or user selected value.
-                val = (courseInstructorAdapter.getItem(i) != null ? courseInstructorAdapter.getItem(i).getName() : "");
+                val = (!courseInstructorAdapter.isEmpty() ? courseInstructorAdapter.getItem(i).getName() : "");
+                System.out.println("SPINNER VALUE " + courseInstructorAdapter.getItem(i).toString());
                 if (val != null) {
                     System.out.println("INSTRUCTOR LABEL: " + val);
                     instructorIdTextInput.setText(String.format("%s", courseInstructorAdapter.getItem(i).getInstructorID()));
+                    // instructorNameTextInput.setText(val);
                     System.out.println(String.format("INSTRUCTOR ID %d", courseInstructorAdapter.getItem(i).getInstructorID()));
                 }
+                //courseInstructorAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -214,7 +288,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         if (studentSchedulerRepo == null) {
             studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
         }
-        RecyclerView recyclerView = findViewById(R.id.assessmentsRV);
+        recyclerView = findViewById(R.id.assessmentsRV);
         final AssessmentsAdapter courseAssessmentsAdapter = new AssessmentsAdapter(this);
         recyclerView.setAdapter(courseAssessmentsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -225,15 +299,78 @@ public class CourseDetailsActivity extends AppCompatActivity {
             }
         }
         courseAssessmentsAdapter.setAssessments(courseAssessments);
+        fabAddAssessment.setTooltipText("Add Assessment");
         fabAddAssessment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("ADD ASSESSMENT CLICKED FOR COURSE- " + courseID);
+                com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE = true;
                 Intent intent = new Intent(CourseDetailsActivity.this, AssessmentDetailsActivity.class);
                 intent.putExtra("courseID", courseID);
+                intent.putExtra("inEditMode", com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE);
                 startActivity(intent);
             }
         });
+
+        // Start Date DataPicker Listener
+        dpStartDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                dpStartDtCalendar.set(Calendar.YEAR, year);
+                dpStartDtCalendar.set(Calendar.MONTH, monthOfYear);
+                dpStartDtCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                startTextInput.setText(dateFormatter.format(dpStartDtCalendar.getTime()));
+            }
+        };
+
+        // Start Date Input Field Listener
+        startTextInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(CourseDetailsActivity.this, dpStartDate, dpStartDtCalendar
+                        .get(Calendar.YEAR), dpStartDtCalendar.get(Calendar.MONTH),
+                        dpStartDtCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        // End Date DataPicker Listener
+        dpEndDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                dpEndDtCalendar.set(Calendar.YEAR, year);
+                dpEndDtCalendar.set(Calendar.MONTH, monthOfYear);
+                dpEndDtCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                endTextInput.setText(dateFormatter.format(dpEndDtCalendar.getTime()));
+            }
+        };
+
+        // End Date Input Field Listener
+        endTextInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(CourseDetailsActivity.this, dpEndDate, dpEndDtCalendar
+                        .get(Calendar.YEAR), dpEndDtCalendar.get(Calendar.MONTH),
+                        dpEndDtCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (studentSchedulerRepo == null) {
+            studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
+        }
+
+        List<Assessment> allCourseAssessments = studentSchedulerRepo.getAllCourseAssessments(courseID);
+        if (allCourseAssessments != null)
+            System.out.println("Assessment List Size" + allCourseAssessments.size());
+        final AssessmentsAdapter assessmentsAdapter = new AssessmentsAdapter(this);
+        recyclerView.setAdapter(assessmentsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        assessmentsAdapter.setAssessments(allCourseAssessments);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -246,14 +383,17 @@ public class CourseDetailsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.edit:
                 System.out.println("Course to EDIT- " + courseID);
+                System.out.println("Course Term- " + termID);
+                System.out.println("Course Instructor- " + instructorID);
+                System.out.println("Course Status Spinner- " + statusTextInput.getText().toString());
                 setCourseTextEditable(true);
-                // fabCheckSave.setVisibility(View.VISIBLE);
+                spinnerStatus.setEnabled(true);
+                spinnerInstructor.setEnabled(true);
                 return false;
 
             case R.id.delete:
                 System.out.println("Course  to DELETE- " + courseID);
                 setCourseTextEditable(false);
-                // fabCheckSave.setVisibility(View.INVISIBLE);
                 studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
 
                 for (Course course : studentSchedulerRepo.getAllCourses()) {
@@ -262,8 +402,16 @@ public class CourseDetailsActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                studentSchedulerRepo.delete(selectedCourse);
-                finish();
+                // studentSchedulerRepo.delete(selectedCourse);
+                if (selectedCourse != null) {
+                    ConfirmDeleteDialog(CourseDetailsActivity.this, studentSchedulerRepo, selectedCourse);
+                }
+                return false;
+
+            case R.id.shareNotes:
+                String shareTitle = String.format("Notes for %s:", titleTextInput.getText().toString());
+                Intent shareNotes = ShareMessage(shareTitle, notesTextInput.getText().toString());
+                startActivity(shareNotes);
                 return true;
         }
         return super.onOptionsItemSelected(item);

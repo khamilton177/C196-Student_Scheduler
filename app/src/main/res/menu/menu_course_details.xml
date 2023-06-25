@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/shareNotes"
+        android:title="@string/share_notes"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/addAssessment"
         android:title="@string/add_assessment"
         app:showAsAction="never"/>
