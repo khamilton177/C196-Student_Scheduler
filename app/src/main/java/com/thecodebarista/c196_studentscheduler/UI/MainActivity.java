@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity implements DegreePlanner {
         return true;
     }
 
+    @Override
+    public void notifyReqCallback() {
+        //nothing yet
+    }
     public boolean loadInstructors() {
         studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
         List<Instructor> allInstructors = studentSchedulerRepo.getAllInstructors();

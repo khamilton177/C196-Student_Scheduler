@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.thecodebarista.c196_studentscheduler.R;
@@ -135,16 +136,18 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
         else{
             studentSchedulerRepo.update(assessment);
             System.out.println("Assessment List INDEX: " + assessmentPosition);
-            //updateAdapter.notifyItemChanged(assessmentPosition);
         }
 
-        //Process pending Notifications for Start date.
-        Long startTrigger = CreateTriggerDate(startTextInput.getText().toString());
-        CreatePendingIntent(AssessmentDetailsActivity.this, startTrigger, assessmentTitleTextInput.getText().toString(), ASSESSMENT_START_DATE_NOTIFY, startTextInput.getText().toString());
-
-        //Process pending Notifications for End date.
-        Long endTrigger = CreateTriggerDate(endTextInput.getText().toString());
-        CreatePendingIntent(AssessmentDetailsActivity.this, endTrigger, assessmentTitleTextInput.getText().toString(), ASSESSMENT_END_DATE_NOTIFY, endTextInput.getText().toString());
+        //Process pending Notifications for Start date for new and updated Start dates.
+        if ((assessment.getCourseID() == 0) || (assessment.getCourseID() > 0 && !startTextInput.getText().toString().equals(assessment.getStartDt()))) {
+            Long startTrigger = CreateTriggerDate(startTextInput.getText().toString());
+            CreatePendingIntent(AssessmentDetailsActivity.this, startTrigger, assessmentTitleTextInput.getText().toString(), ASSESSMENT_START_DATE_NOTIFY, startTextInput.getText().toString());
+        }
+        //Process pending Notifications for End date for new and updated End dates.
+        if ((assessment.getCourseID() == 0) || (assessment.getCourseID() > 0 && !endTextInput.getText().toString().equals(assessment.getEndDt()))) {
+            Long endTrigger = CreateTriggerDate(endTextInput.getText().toString());
+            CreatePendingIntent(AssessmentDetailsActivity.this, endTrigger, assessmentTitleTextInput.getText().toString(), ASSESSMENT_END_DATE_NOTIFY, endTextInput.getText().toString());
+        }
 
         setAssessmentTextEditable(false);
         spinnerType.setEnabled(false);
@@ -155,6 +158,11 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
     public boolean finishCallback() {
         this.finish();
         return true;
+    }
+
+    @Override
+    public void notifyReqCallback() {
+        Toast.makeText(AssessmentDetailsActivity.this, R.string.assessmentNotifyConf, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -251,6 +259,7 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_details, menu);
+        getMenuInflater().inflate(R.menu.menu_assessment_details, menu);
         return true;
     }
 
@@ -279,6 +288,10 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
                 if (selectedAssessment != null) {
                     ConfirmDeleteDialog(AssessmentDetailsActivity.this, studentSchedulerRepo, selectedAssessment);
                 }
+                return false;
+
+            case R.id.assessmentNotify:
+                createManualNotify(AssessmentDetailsActivity.this, "Assessment", assessmentTitleTextInput.getText().toString(), startTextInput.getText().toString(), endTextInput.getText().toString());
                 return false;
         }
         return super.onOptionsItemSelected(item);

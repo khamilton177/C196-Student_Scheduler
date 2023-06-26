@@ -48,6 +48,11 @@ public class CoursesActivity extends AppCompatActivity implements DegreePlanner 
     }
 
     @Override
+    public void notifyReqCallback() {
+        //nothing yet
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);

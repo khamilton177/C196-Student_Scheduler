@@ -124,6 +124,11 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
     }
 
     @Override
+    public void notifyReqCallback() {
+        //nothing yet
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_details);

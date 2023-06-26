@@ -6,7 +6,11 @@
         android:title="@string/share_notes"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/addAssessment"
-        android:title="@string/add_assessment"
+    <item android:id="@+id/courseNotify"
+        android:title="@string/courseNotify"
         app:showAsAction="never"/>
+
+    <!--item android:id="@+id/addAssessment"
+        android:title="@string/add_assessment"
+        app:showAsAction="never"/-->
 </menu>

@@ -1,13 +1,6 @@
 package com.thecodebarista.c196_studentscheduler.UI;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.thecodebarista.c196_studentscheduler.R;
@@ -32,7 +30,6 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CourseDetailsActivity extends AppCompatActivity implements DegreePlanner {
-   // public final void ACTION_FINISH = finish();
     private EditText termIdTextInput;
     private EditText titleTextInput;
     final Calendar dpStartDtCalendar = Calendar.getInstance();
@@ -70,15 +67,6 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
     RecyclerView recyclerView;
     Spinner spinnerStatus;
     Spinner spinnerInstructor;
-    AlertDialog confDelItem;
-
-/*
-    private void enableInputs() {
-        titleTextInput.setEnabled(true);
-        startTextInput.setEnabled(true);
-        endTextInput.setEnabled(true);
-    }
-*/
 
     private void intentSetCourseDetailData() {
         studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
@@ -91,18 +79,15 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         notesTextInput = findViewById(R.id.courseNotesInput);
         fabCheckSave = findViewById(R.id.fabCheckSave);
         fabAddAssessment = findViewById(R.id.fabAddAssessment);
-        // enableInputs();
         courseID = getIntent().getIntExtra("courseID",-1);
         termID = getIntent().getIntExtra("termID", -1);
         title = getIntent().getStringExtra("title");
         status = getIntent().getStringExtra("status");
-        // statusEnum = Course.CourseStatus.valueOf(getIntent().getStringExtra("statusEnum"));
         startDt = getIntent().getStringExtra("startDt");
         endDt = getIntent().getStringExtra("endDt");
         instructorID = getIntent().getIntExtra("instructorID",-1);
         if (courseID > 0 ) {
             selectedInstructor = studentSchedulerRepo.getInstructor(getIntent().getIntExtra("spinnerInstructor", -1));
-            // instructorName = selectedInstructor.getName();
             coursePosition = getIntent().getIntExtra("coursePosition", -1);
         }
         notes = getIntent().getStringExtra("notes");
@@ -180,28 +165,35 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         else{
             studentSchedulerRepo.update(course);
             System.out.println("Course List INDEX: " + coursePosition);
-            //updateAdapter.notifyItemChanged(coursePosition);
         }
 
-        //Process pending Notifications for Start date.
-        Long startTrigger = CreateTriggerDate(startTextInput.getText().toString());
-        CreatePendingIntent(CourseDetailsActivity.this, startTrigger, titleTextInput.getText().toString(), COURSE_START_DATE_NOTIFY, startTextInput.getText().toString());
+        //Process pending Notifications for Start date for new and updated Start dates.
+        if ((course.getCourseID() == 0) || (course.getCourseID() > 0 && !startTextInput.getText().toString().equals(course.getStartDt()))) {
+            Long startTrigger = CreateTriggerDate(startTextInput.getText().toString());
+            CreatePendingIntent(CourseDetailsActivity.this, startTrigger, titleTextInput.getText().toString(), COURSE_START_DATE_NOTIFY, startTextInput.getText().toString());
+        }
 
-        //Process pending Notifications for End date.
-        Long endTrigger = CreateTriggerDate(endTextInput.getText().toString());
-        CreatePendingIntent(CourseDetailsActivity.this, endTrigger, titleTextInput.getText().toString(), COURSE_END_DATE_NOTIFY, endTextInput.getText().toString());
+        //Process pending Notifications for End date for new and updated End dates.
+        if ((course.getCourseID() == 0) || (course.getCourseID() > 0 && !endTextInput.getText().toString().equals(course.getEndDt()))) {
+            Long endTrigger = CreateTriggerDate(endTextInput.getText().toString());
+            CreatePendingIntent(CourseDetailsActivity.this, endTrigger, titleTextInput.getText().toString(), COURSE_END_DATE_NOTIFY, endTextInput.getText().toString());
+        }
 
         selectedInstructor = studentSchedulerRepo.getInstructor(Integer.parseInt(instructorIdTextInput.getText().toString()));
         setCourseTextEditable(false);
         spinnerStatus.setEnabled(false);
         spinnerInstructor.setEnabled(false);
-        //finish();
     }
 
     @Override
     public boolean finishCallback() {
         this.finish();
         return true;
+    }
+
+    @Override
+    public void notifyReqCallback() {
+        Toast.makeText(CourseDetailsActivity.this, R.string.courseNotifyConf, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -236,12 +228,11 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
                 System.out.println("STATUS LABEL: " + val);
                 statusTextInput.setText(String.format("%s", Course.CourseStatus.values()[spinnerStatus.getSelectedItemPosition()])); //set input field to string of ENUM for DB.
                 System.out.println(String.format("DEFAULT STATUS ENUM? %s", Course.CourseStatus.values()[spinnerStatus.getSelectedItemPosition()])); //GOOD
-                //courseStatusAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                String statusDefault = "Plan to Take";
+
             }
         });
 
@@ -275,7 +266,6 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
                     // instructorNameTextInput.setText(val);
                     System.out.println(String.format("INSTRUCTOR ID %d", courseInstructorAdapter.getItem(i).getInstructorID()));
                 }
-                //courseInstructorAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -413,6 +403,10 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
                 Intent shareNotes = ShareMessage(shareTitle, notesTextInput.getText().toString());
                 startActivity(shareNotes);
                 return true;
+
+            case R.id.courseNotify:
+                createManualNotify(CourseDetailsActivity.this, "Course", titleTextInput.getText().toString(), startTextInput.getText().toString(), endTextInput.getText().toString());
+                return false;
         }
         return super.onOptionsItemSelected(item);
     }

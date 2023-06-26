@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.thecodebarista.c196_studentscheduler.R;
@@ -45,6 +46,12 @@ public class AssessmentsActivity extends AppCompatActivity  implements DegreePla
     public boolean finishCallback() {
         this.finish();
         return true;
+    }
+
+
+    @Override
+    public void notifyReqCallback() {
+        //nothing yet
     }
 
     @Override

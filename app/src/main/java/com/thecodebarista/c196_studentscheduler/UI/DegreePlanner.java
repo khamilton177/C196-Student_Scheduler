@@ -1,12 +1,12 @@
 package com.thecodebarista.c196_studentscheduler.UI;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.InputQueue;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -18,6 +18,7 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -63,6 +64,7 @@ public interface DegreePlanner {
     }
 
     boolean finishCallback();
+    void notifyReqCallback();
 
     default void ConfirmDeleteDialog(Context context, StudentSchedulerRepo repo, Object obj) {
         int msg = -1;
@@ -97,18 +99,54 @@ public interface DegreePlanner {
         confDelItem.show();
     }
 
+    default void createManualNotify(Context context, String objType, String typeTitle, String dtStart, String dtEnd) {
+        final String[] notifyType = {"", ""};
+        if (objType == "Course") {
+            notifyType[0] = COURSE_START_DATE_NOTIFY;
+            notifyType[1] = COURSE_END_DATE_NOTIFY;
+        } else {
+            notifyType[0] = ASSESSMENT_START_DATE_NOTIFY;
+            notifyType[1] = ASSESSMENT_END_DATE_NOTIFY;
+        }
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setTitle(R.string.notifyDialogTitle)
+                .setItems(R.array.notify_date_fields, new DialogInterface.OnClickListener() {
+                    Long dtTrigger = null;
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Get user's date field choice
+                            switch (which) {
+                                case 0:
+                                    dtTrigger = CreateTriggerDate(dtStart);
+                                    CreatePendingIntent(context, dtTrigger, typeTitle, notifyType[0], dtStart);
+                                case 1:
+                                    dtTrigger = CreateTriggerDate(dtEnd);
+                                    CreatePendingIntent(context, dtTrigger, typeTitle, notifyType[1], dtEnd);
+                            }
+                            notifyReqCallback();
+                        }
+                });
+        AlertDialog notifyRequest = alertBuilder.create();
+        notifyRequest.show();
+    }
+
+    /**
+     * Created to Testing Terms Activity.
+     * @param calendar Instantiated Calendar
+     * @param repo Declared Student Repository
+     */
     public default void seedTerms(Calendar calendar, StudentSchedulerRepo repo) {
         String today = dateFormatter.format(calendar.getTime());
         calendar.add(Calendar.MONTH, 3);
         calendar.set(Calendar.DAY_OF_MONTH, 28);
         String today3 = dateFormatter.format(calendar.getTime());
         int termID = 0;
-        for (int i = 1; i < 25; ++i) {
+        for (int i = 1; i < 20; ++i) {
             String termTitle = String.format("Term Seed %d", i);
             Term term = new Term(termID, termTitle, today, today3);
             repo.insert(term);
         }
-        finishCallback();
+        // finishCallback();
     }
 
 }
