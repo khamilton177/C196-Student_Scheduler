@@ -160,7 +160,7 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
 
         if(course.getCourseID() == 0){
-            studentSchedulerRepo.insert(course);
+          studentSchedulerRepo.insert(course);
         }
         else{
             studentSchedulerRepo.update(course);

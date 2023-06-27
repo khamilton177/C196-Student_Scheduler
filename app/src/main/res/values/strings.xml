@@ -76,6 +76,7 @@
     <string name="seedTerm">Seed Term Data For Testing</string>
     <string name="assessmentNotify">Request Assessment Alert</string>
     <string name="assessmentNotifyConf">Assessment Alert Set</string>
+    <string name="choose">Make a selection from dropdown.</string>
 
     <!-- Array used for Instructor Seed Data -->
     <string-array name="course_instructors">

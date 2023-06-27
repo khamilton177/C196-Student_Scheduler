@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.CourseDetailsActivity">
+
+    <LinearLayout
+        android:id="@+id/topLevel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/leftLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ScrollView
+                android:id="@+id/detailsScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical"
+                    android:scrollbars="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <!--
+                        <TextView
+                            android:labelFor="@+id/termIdInput"
+                            android:id="@+id/termIdLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/term_id"
+                            tools:layout_editor_absoluteX="66dp"
+                            tools:layout_editor_absoluteY="138dp" />
+         -->
+                        <EditText
+                            android:id="@+id/termIdInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="1dp"
+                            android:hint=""
+                            android:visibility="invisible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/courseTitleLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:labelFor="@+id/courseTitleInput"
+                            android:text="@string/course_title"
+                            tools:layout_editor_absoluteX="66dp"
+                            tools:layout_editor_absoluteY="138dp" />
+
+                        <EditText
+                            android:id="@+id/courseTitleInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/StatusSpinnerLabel" />
+
+                        <Spinner
+                            android:id="@+id/statusSpinner"
+                            android:layout_width="409dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            tools:layout_editor_absoluteX="1dp"
+                            tools:layout_editor_absoluteY="373dp" />
+                        <!--
+                        <TextView
+                            android:labelFor="@+id/courseStatusInput"
+                            android:id="@+id/courseStatusLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/course_status"
+                            tools:layout_editor_absoluteX="66dp"
+                            tools:layout_editor_absoluteY="106dp" />
+                        -->
+                        <EditText
+                            android:id="@+id/courseStatusInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="2dp"
+                            android:hint=""
+                            android:visibility="invisible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/courseStartLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:labelFor="@+id/courseStartInput"
+                            android:text="@string/course_start"
+                            tools:layout_editor_absoluteX="145dp"
+                            tools:layout_editor_absoluteY="138dp" />
+
+                        <EditText
+                            android:id="@+id/courseStartInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="Choose Start Date"
+                            android:inputType="none"
+                            android:minHeight="48dp" />
+
+                        <TextView
+                            android:id="@+id/courseEndLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:labelFor="@+id/courseEndInput"
+                            android:text="@string/course_end"
+                            tools:layout_editor_absoluteX="66dp"
+                            tools:layout_editor_absoluteY="106dp" />
+
+                        <EditText
+                            android:id="@+id/courseEndInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="Choose End Date"
+                            android:minHeight="48dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/InstructorSpinnerLabel" />
+                        <Spinner
+                            android:id="@+id/instructorIdSpinner"
+                            android:layout_width="409dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            tools:layout_editor_absoluteX="1dp"
+                            tools:layout_editor_absoluteY="373dp" />
+                        <EditText
+                            android:id="@+id/courseInstructorIdInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint=""
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/courseNotesLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:labelFor="@+id/courseNotesInput"
+                            android:text="@string/course_notes"
+                            tools:layout_editor_absoluteX="66dp"
+                            tools:layout_editor_absoluteY="106dp" />
+
+                        <EditText
+                            android:id="@+id/courseNotesInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Enter note here."
+                            android:minWidth="48dp"
+                            android:minHeight="48dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/fabCheckSave"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:onClick="onCheckSaveClick"
+                            android:visibility="invisible"
+                            app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rightLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rvLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/AssessmentsRvLabel"
+                android:textAlignment="viewStart"
+                android:textColor="@color/teal_700"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ScrollView
+                android:id="@+id/rvScroller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/rvLabel"
+                app:layout_constraintBottom_toTopOf="@id/fabAddAssessment"
+                tools:layout_editor_absoluteX="-14dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/assessmentsRV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvLabel" />
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddAssessment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_add_circle_24" />
+</androidx.constraintlayout.widget.ConstraintLayout>

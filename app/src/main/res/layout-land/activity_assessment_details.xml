@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.AssessmentDetailsActivity">
+
+    <ScrollView
+        android:id="@+id/detailsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+<!--
+
+            <TextView
+                android:labelFor="@+id/courseIdInput"
+                android:id="@+id/courseIdLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/course_id"
+                tools:layout_editor_absoluteX="66dp"
+                tools:layout_editor_absoluteY="138dp" />
+-->
+
+            <EditText
+                android:id="@+id/courseIdInput"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:visibility="invisible"
+                android:hint="" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/choose"
+                android:text="@string/TypeSpinnerLabel" />
+            <Spinner
+                android:id="@+id/assessmentTypeSpinner"
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="373dp" />
+<!--
+
+            <TextView
+                android:labelFor="@+id/assessmentTypeInput"
+                android:id="@+id/assessmentTypeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Type"
+                tools:layout_editor_absoluteX="66dp"
+                tools:layout_editor_absoluteY="106dp" />
+-->
+
+            <EditText
+                android:id="@+id/assessmentTypeInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:hint="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:labelFor="@+id/assessmentTitleInput"
+                android:id="@+id/assessmentTitleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/assessment_title"
+                tools:layout_editor_absoluteX="66dp"
+                tools:layout_editor_absoluteY="138dp" />
+            <EditText
+                android:id="@+id/assessmentTitleInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:labelFor="@+id/assessmentStartInput"
+                android:id="@+id/assessmentStartLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/assessment_start"
+                tools:layout_editor_absoluteX="145dp"
+                tools:layout_editor_absoluteY="138dp" />
+            <EditText
+                android:id="@+id/assessmentStartInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:hint="Choose Start Date"
+                android:focusable="false"/>
+
+            <TextView
+                android:labelFor="@+id/assessmentEndInput"
+                android:id="@+id/assessmentEndLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/assessment_end"
+                tools:layout_editor_absoluteX="66dp"
+                tools:layout_editor_absoluteY="106dp" />
+            <EditText
+                android:id="@+id/assessmentEndInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Choose End Date"
+                android:focusable="false"/>
+        </LinearLayout>
+
+        <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/AssessmentSpinnerLabel" />
+            <Spinner
+                android:id="@+id/assessmentStatusSpinner"
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="373dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="66dp"
+                tools:layout_editor_absoluteY="106dp" />
+            <EditText
+                android:id="@+id/assessmentStatusInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:hint="" />
+        </LinearLayout>
+        -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCheckSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckSaveClick"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
