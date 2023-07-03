@@ -45,8 +45,9 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
                     final Assessment latest = Assessments.get(position);
                     com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE = false;
                     Intent intent= new Intent(context,AssessmentDetailsActivity.class);
+                    System.out.println("Selected Assessment - " + latest.getAssessmentID());
                     intent.putExtra("assessmentID", latest.getAssessmentID());
-                    System.out.println("Selected - " + latest.getCourseID());
+                    System.out.println("Selected Assessment Course ID - " + latest.getCourseID());
                     intent.putExtra("courseID", latest.getCourseID());
                     intent.putExtra("assessmentType", latest.getAssessmentType());
                     intent.putExtra("assessmentTitle", latest.getAssessmentTitle());

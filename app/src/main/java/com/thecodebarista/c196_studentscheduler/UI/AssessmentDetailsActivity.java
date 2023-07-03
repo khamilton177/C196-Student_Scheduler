@@ -149,6 +149,9 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
             CreatePendingIntent(AssessmentDetailsActivity.this, endTrigger, assessmentTitleTextInput.getText().toString(), ASSESSMENT_END_DATE_NOTIFY, endTextInput.getText().toString());
         }
 
+        if (assessment.getAssessmentID() == 0) {
+            studentSchedulerRepo.getLastAssessmentInsert();
+        }
         setAssessmentTextEditable(false);
         spinnerType.setEnabled(false);
         //finish();

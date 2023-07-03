@@ -25,4 +25,7 @@ public interface TermDao {
 
     @Query("SELECT * FROM terms ORDER BY id ASC")
     List<Term> getAllTerms();
+
+    @Query("SELECT id FROM terms ORDER BY id DESC LIMIT 1")
+    int getLastTermInsert();
 }

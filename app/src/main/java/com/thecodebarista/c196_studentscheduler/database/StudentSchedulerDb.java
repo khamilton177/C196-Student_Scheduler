@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 21, exportSchema = false)
+@Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 22, exportSchema = false)
 public abstract class StudentSchedulerDb extends RoomDatabase {
     private static volatile StudentSchedulerDb DB_INSTANCE;
     private static final String DATABASE_NAME = "student_scheduler.db";

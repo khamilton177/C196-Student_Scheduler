@@ -114,6 +114,9 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
             studentSchedulerRepo.update(term);
         }
         setTermTextEditable(false);
+        if (term.getTermID() == 0) {
+            termID = studentSchedulerRepo.getLastTermInsert();
+        }
         //fabCheckSave.setVisibility(View.INVISIBLE);
     }
 
@@ -153,7 +156,15 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
         fabAddCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ADD COURSE CLICKED FOR TERM ID: " + termID);
+                //Launching Add Course from TermDetails after just creating term
+                if (termID == 0) {
+                    termID = studentSchedulerRepo.getLastTermInsert();
+                    System.out.println("ADD COURSE CLICKED FOR NEWLY INSERTED TERM- " + termID);
+                } else {
+                    System.out.println("ADD COURSE CLICKED. TERM ID: " + termID);
+                }
+
+                System.out.println("ADD COURSE CLICKED FOR TERM- " + termID);
                 com.thecodebarista.c196_studentscheduler.UI.CoursesAdapter.COURSE_EDIT_MODE = true;
                 Intent intent = new Intent(TermDetailsActivity.this, CourseDetailsActivity.class);
                 intent.putExtra("termID", termID);

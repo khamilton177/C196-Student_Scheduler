@@ -13,7 +13,7 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 import java.util.List;
 
 @Dao
-public interface    CourseDao {
+public interface CourseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Course course);
 
@@ -31,4 +31,7 @@ public interface    CourseDao {
 
     @Query("SELECT * FROM courses WHERE status = :courseStatus ORDER BY id ASC")
     List<Course> getCoursesByStatus(Course.CourseStatus courseStatus);
+
+    @Query("SELECT id FROM courses ORDER BY id DESC LIMIT 1")
+    int getLastCourseInsert();
 }

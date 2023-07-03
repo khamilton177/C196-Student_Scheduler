@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,7 +41,8 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
     private EditText endTextInput;
     private EditText statusTextInput;
     private EditText instructorIdTextInput;
-    private EditText instructorNameTextInput;
+    private TextView instructorPhone;
+    private TextView instructorEmail;
     private EditText notesTextInput;
     FloatingActionButton fabCheckSave;
     FloatingActionButton fabAddAssessment;
@@ -79,6 +81,8 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         notesTextInput = findViewById(R.id.courseNotesInput);
         fabCheckSave = findViewById(R.id.fabCheckSave);
         fabAddAssessment = findViewById(R.id.fabAddAssessment);
+        instructorPhone = findViewById(R.id.courseInstructorPhone);
+        instructorEmail = findViewById(R.id.courseInstructorEmail);
         courseID = getIntent().getIntExtra("courseID",-1);
         termID = getIntent().getIntExtra("termID", -1);
         title = getIntent().getStringExtra("title");
@@ -89,6 +93,8 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         if (courseID > 0 ) {
             selectedInstructor = studentSchedulerRepo.getInstructor(getIntent().getIntExtra("spinnerInstructor", -1));
             coursePosition = getIntent().getIntExtra("coursePosition", -1);
+            instructorPhone.setText(String.format("Phone: %s", selectedInstructor.getPhoneNumber()));
+            instructorEmail.setText(String.format("Email: %s", selectedInstructor.getEmail()));
         }
         notes = getIntent().getStringExtra("notes");
         inEditMode = getIntent().getBooleanExtra("inEditMode", false);
@@ -103,7 +109,7 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         }
     }
 
-    private void setCourseTextEditable(boolean canEdit) {
+    protected void setCourseTextEditable(boolean canEdit) {
         termIdTextInput = findViewById(R.id.termIdInput);
         titleTextInput = findViewById(R.id.courseTitleInput);
         statusTextInput = findViewById(R.id.courseStatusInput);
@@ -119,9 +125,13 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         if (canEdit) {
             fabCheckSave.setVisibility(View.VISIBLE);
             fabAddAssessment.setVisibility(View.INVISIBLE);
+            instructorPhone.setVisibility(View.GONE);
+            instructorEmail.setVisibility(View.GONE);
         } else {
             fabCheckSave.setVisibility(View.GONE);
             fabAddAssessment.setVisibility(View.VISIBLE);
+            instructorPhone.setVisibility(View.VISIBLE);
+            instructorEmail.setVisibility(View.VISIBLE);
         }
     }
 
@@ -160,7 +170,7 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
 
         if(course.getCourseID() == 0){
-          studentSchedulerRepo.insert(course);
+            studentSchedulerRepo.insert(course);
         }
         else{
             studentSchedulerRepo.update(course);
@@ -180,6 +190,11 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         }
 
         selectedInstructor = studentSchedulerRepo.getInstructor(Integer.parseInt(instructorIdTextInput.getText().toString()));
+        instructorPhone.setText(String.format("Phone: %s", selectedInstructor.getPhoneNumber()));
+        instructorEmail.setText(String.format("Email: %s", selectedInstructor.getEmail()));
+        if (course.getCourseID() == 0) {
+            courseID = studentSchedulerRepo.getLastCourseInsert();
+        }
         setCourseTextEditable(false);
         spinnerStatus.setEnabled(false);
         spinnerInstructor.setEnabled(false);
@@ -293,7 +308,14 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         fabAddAssessment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ADD ASSESSMENT CLICKED FOR COURSE- " + courseID);
+                //Launching Add Assessment from CourseDetails after just creating course
+                if (courseID == 0) {
+                    courseID = studentSchedulerRepo.getLastCourseInsert();
+                    System.out.println("ADD ASSESSMENT CLICKED FOR NEWLY INSERTED COURSE- " + courseID);
+                } else {
+                    System.out.println("ADD ASSESSMENT CLICKED. COURSE ID: " + courseID);
+                }
+
                 com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE = true;
                 Intent intent = new Intent(CourseDetailsActivity.this, AssessmentDetailsActivity.class);
                 intent.putExtra("courseID", courseID);
@@ -386,15 +408,19 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
                 setCourseTextEditable(false);
                 studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
 
-                for (Course course : studentSchedulerRepo.getAllCourses()) {
-                    if (course.getCourseID() == courseID) {
-                        selectedCourse = course;
-                        break;
+                if (studentSchedulerRepo.getAllCourseAssessments(courseID).size() > 0) {
+                    Toast.makeText(CourseDetailsActivity.this, "Cannot delete course with assessments assigned.", Toast.LENGTH_LONG).show();
+                } else {
+                    for (Course course : studentSchedulerRepo.getAllCourses()) {
+                        if (course.getCourseID() == courseID) {
+                            selectedCourse = course;
+                            break;
+                        }
                     }
-                }
-                // studentSchedulerRepo.delete(selectedCourse);
-                if (selectedCourse != null) {
-                    ConfirmDeleteDialog(CourseDetailsActivity.this, studentSchedulerRepo, selectedCourse);
+                    // studentSchedulerRepo.delete(selectedCourse);
+                    if (selectedCourse != null) {
+                        ConfirmDeleteDialog(CourseDetailsActivity.this, studentSchedulerRepo, selectedCourse);
+                    }
                 }
                 return false;
 

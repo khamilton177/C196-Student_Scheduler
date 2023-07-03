@@ -32,4 +32,7 @@ public interface AssessmentDao {
 
     @Query("SELECT * FROM assessments WHERE type = :assessmentType ORDER BY id ASC")
     List<Assessment> getAssessmentsByType(Assessment.AssessmentType assessmentType);
+
+    @Query("SELECT id FROM assessments ORDER BY id DESC LIMIT 1")
+    int getLastAssessmentInsert();
 }

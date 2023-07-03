@@ -26,6 +26,7 @@ public class StudentSchedulerRepo {
     private List<Assessment> allAssessments;
     private List<Instructor> allInstructors;
     private Instructor instructor;
+    private int lastInsert;
 
     /**
      * Allowed Thread Pool count.
@@ -39,6 +40,7 @@ public class StudentSchedulerRepo {
 
     /**
      * Instantiate the StudentSchedulerRepo Repository.
+     *
      * @param application the Student Scheduler Application.
      */
     public StudentSchedulerRepo(Application application) {
@@ -279,7 +281,7 @@ public class StudentSchedulerRepo {
 
     public Instructor getInstructor(int instructorID) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
-             instructor = instructorDao.getInstructor(instructorID);
+            instructor = instructorDao.getInstructor(instructorID);
         });
         try {
             Thread.sleep(1000);
@@ -301,4 +303,39 @@ public class StudentSchedulerRepo {
         return allInstructors;
     }*/
 
+    public int getLastTermInsert() {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            lastInsert = termDao.getLastTermInsert();
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return lastInsert;
+    }
+
+    public int getLastCourseInsert() {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            lastInsert = courseDao.getLastCourseInsert();
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return lastInsert;
+    }
+
+    public int getLastAssessmentInsert() {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            lastInsert = assessmentDao.getLastAssessmentInsert();
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return lastInsert;
+    }
 }

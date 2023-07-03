@@ -36,16 +36,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
-                        <!--
-                        <TextView
-                            android:labelFor="@+id/termIdInput"
-                            android:id="@+id/termIdLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/term_id"
-                            tools:layout_editor_absoluteX="66dp"
-                            tools:layout_editor_absoluteY="138dp" />
-         -->
+
                         <EditText
                             android:id="@+id/termIdInput"
                             android:layout_width="wrap_content"
@@ -92,16 +83,7 @@
                             android:layout_marginEnd="5dp"
                             tools:layout_editor_absoluteX="1dp"
                             tools:layout_editor_absoluteY="373dp" />
-                        <!--
-                        <TextView
-                            android:labelFor="@+id/courseStatusInput"
-                            android:id="@+id/courseStatusLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/course_status"
-                            tools:layout_editor_absoluteX="66dp"
-                            tools:layout_editor_absoluteY="106dp" />
-                        -->
+
                         <EditText
                             android:id="@+id/courseStatusInput"
                             android:layout_width="wrap_content"
@@ -176,6 +158,43 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/topInstructLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="2dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/leftInstructLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/courseInstructorPhone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="invisible"
+                                app:layout_constraintTop_toTopOf="parent"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/rightInstructLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/courseInstructorEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="invisible"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
@@ -239,16 +258,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="0dp"
+                android:background="#3303DAC5"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/rvLabel"
-                app:layout_constraintBottom_toTopOf="@id/fabAddAssessment"
-                tools:layout_editor_absoluteX="-14dp">
+                app:layout_constraintBottom_toTopOf="@id/fabAddAssessment">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/assessmentsRV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:scrollbars="vertical"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rvLabel" />
