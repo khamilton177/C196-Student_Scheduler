@@ -16,8 +16,6 @@ import com.thecodebarista.c196_studentscheduler.entities.Assessment;
 import java.util.List;
 
 public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.AssessmentViewHolder> {
-    protected static boolean ASSESSMENT_EDIT_MODE;
-
     private List<Assessment> Assessments;
     private final Context context;
     private final LayoutInflater inflater;
@@ -43,7 +41,7 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
                 public void onClick(View view) {
                     int position = getBindingAdapterPosition();
                     final Assessment latest = Assessments.get(position);
-                    com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE = false;
+                    com.thecodebarista.c196_studentscheduler.UI.AssessmentDetailsActivity.ASSESSMENT_EDIT_MODE = false;
                     Intent intent= new Intent(context,AssessmentDetailsActivity.class);
                     System.out.println("Selected Assessment - " + latest.getAssessmentID());
                     intent.putExtra("assessmentID", latest.getAssessmentID());

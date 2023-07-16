@@ -61,9 +61,9 @@ public class CoursesActivity extends AppCompatActivity implements DegreePlanner 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                com.thecodebarista.c196_studentscheduler.UI.CoursesAdapter.COURSE_EDIT_MODE = true;
+                com.thecodebarista.c196_studentscheduler.UI.CourseDetailsActivity.COURSE_EDIT_MODE = true;
                 Intent intent = new Intent(CoursesActivity.this, CourseDetailsActivity.class);
-                intent.putExtra("inEditMode", com.thecodebarista.c196_studentscheduler.UI.CoursesAdapter.COURSE_EDIT_MODE);
+                intent.putExtra("inEditMode", true);
                 startActivity(intent);
             }
         });

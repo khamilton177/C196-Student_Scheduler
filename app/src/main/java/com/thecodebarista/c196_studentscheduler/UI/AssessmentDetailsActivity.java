@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AssessmentDetailsActivity extends AppCompatActivity implements DegreePlanner {
+    protected static boolean ASSESSMENT_EDIT_MODE;
     private EditText courseIdTextInput;
     private EditText assessmentTitleTextInput;
     private EditText typeTextInput;
@@ -125,6 +126,8 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
 
     public void onCheckSaveClick(View view) {
         Assessment assessment;
+        boolean startChanged = false;
+        boolean endChanged = false;
         System.out.println("Save button clicked. Assessment ID is- " + assessmentID);
         assessment = createAssessmentDetailData();
         System.out.println("This assessment ID is- " + assessment.getAssessmentID());
@@ -134,17 +137,25 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
             studentSchedulerRepo.insert(assessment);
         }
         else{
+            if (selectedAssessment != null) {
+                startChanged = !selectedAssessment.getStartDt().equals(assessment.getStartDt());
+                endChanged = !selectedAssessment.getEndDt().equals(assessment.getEndDt());
+
+                /*System.out.println("Input Date: " + startTextInput.getText().toString());
+                System.out.println("DB Date: " + selectedAssessment.getStartDt());
+                System.out.println("Changed? " + startChanged);*/
+            }
             studentSchedulerRepo.update(assessment);
             System.out.println("Assessment List INDEX: " + assessmentPosition);
         }
 
         //Process pending Notifications for Start date for new and updated Start dates.
-        if ((assessment.getCourseID() == 0) || (assessment.getCourseID() > 0 && !startTextInput.getText().toString().equals(assessment.getStartDt()))) {
+        if ((assessment.getCourseID() == 0) || (assessment.getCourseID() > 0 && startChanged)) {
             Long startTrigger = CreateTriggerDate(startTextInput.getText().toString());
             CreatePendingIntent(AssessmentDetailsActivity.this, startTrigger, assessmentTitleTextInput.getText().toString(), ASSESSMENT_START_DATE_NOTIFY, startTextInput.getText().toString());
         }
         //Process pending Notifications for End date for new and updated End dates.
-        if ((assessment.getCourseID() == 0) || (assessment.getCourseID() > 0 && !endTextInput.getText().toString().equals(assessment.getEndDt()))) {
+        if ((assessment.getCourseID() == 0) || (assessment.getCourseID() > 0 && endChanged)) {
             Long endTrigger = CreateTriggerDate(endTextInput.getText().toString());
             CreatePendingIntent(AssessmentDetailsActivity.this, endTrigger, assessmentTitleTextInput.getText().toString(), ASSESSMENT_END_DATE_NOTIFY, endTextInput.getText().toString());
         }
@@ -154,7 +165,7 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
         }
         setAssessmentTextEditable(false);
         spinnerType.setEnabled(false);
-        //finish();
+        com.thecodebarista.c196_studentscheduler.UI.AssessmentDetailsActivity.ASSESSMENT_EDIT_MODE = false;
     }
 
     @Override
@@ -173,6 +184,10 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assessment_details);
         intentSetAssessmentDetailData();
+
+        if (savedInstanceState != null) {
+            setAssessmentTextEditable(ASSESSMENT_EDIT_MODE);
+        }
 
         // Create Types list for Spinner
         ArrayList<String> assessmentTypes = new ArrayList<>();
@@ -272,6 +287,7 @@ public class AssessmentDetailsActivity extends AppCompatActivity implements Degr
                 System.out.println("Assessment to EDIT- " + assessmentID);
                 System.out.println("Assessment Course- " + courseID);
                 System.out.println("Assessment Status Spinner- " + typeTextInput.getText().toString());
+                com.thecodebarista.c196_studentscheduler.UI.AssessmentDetailsActivity.ASSESSMENT_EDIT_MODE = true;
                 setAssessmentTextEditable(true);
                 spinnerType.setEnabled(true);
                 return false;

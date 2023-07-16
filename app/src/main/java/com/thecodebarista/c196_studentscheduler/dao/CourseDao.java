@@ -32,6 +32,9 @@ public interface CourseDao {
     @Query("SELECT * FROM courses WHERE status = :courseStatus ORDER BY id ASC")
     List<Course> getCoursesByStatus(Course.CourseStatus courseStatus);
 
+    @Query("SELECT * FROM courses WHERE id = :courseID")
+    Course getCourse(int courseID);
+
     @Query("SELECT id FROM courses ORDER BY id DESC LIMIT 1")
     int getLastCourseInsert();
 }

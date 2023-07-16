@@ -55,9 +55,7 @@ public class MainActivity extends AppCompatActivity implements DegreePlanner {
             @Override
             public void onClick(View view) {
                 // Intent intent=new Intent(MainActivity.this, HomeActivity.class);
-                TermsAdapter.TERM_EDIT_MODE = true;
                 Intent intent=new Intent(MainActivity.this, TermsActivity.class);
-                intent.putExtra("inEditMode", TermsAdapter.TERM_EDIT_MODE);
                 startActivity(intent);
             }
         });

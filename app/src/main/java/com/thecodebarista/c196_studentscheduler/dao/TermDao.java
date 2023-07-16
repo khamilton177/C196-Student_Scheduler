@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.thecodebarista.c196_studentscheduler.entities.Assessment;
+import com.thecodebarista.c196_studentscheduler.entities.Course;
 import com.thecodebarista.c196_studentscheduler.entities.Term;
 
 import java.util.List;
@@ -25,6 +26,9 @@ public interface TermDao {
 
     @Query("SELECT * FROM terms ORDER BY id ASC")
     List<Term> getAllTerms();
+
+    @Query("SELECT * FROM terms WHERE id = :termID")
+    Term getTerm(int termID);
 
     @Query("SELECT id FROM terms ORDER BY id DESC LIMIT 1")
     int getLastTermInsert();

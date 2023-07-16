@@ -64,9 +64,9 @@ public class AssessmentsActivity extends AppCompatActivity  implements DegreePla
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE = true;
+                com.thecodebarista.c196_studentscheduler.UI.AssessmentDetailsActivity.ASSESSMENT_EDIT_MODE = true;
                 Intent intent = new Intent(AssessmentsActivity.this, AssessmentDetailsActivity.class);
-                intent.putExtra("inEditMode", com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE);
+                intent.putExtra("inEditMode", true);
                 startActivity(intent);
             }
         });

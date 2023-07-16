@@ -25,6 +25,9 @@ public class StudentSchedulerRepo {
     private List<Course> allCourses;
     private List<Assessment> allAssessments;
     private List<Instructor> allInstructors;
+    private Term term;
+    private Course course;
+    private Assessment assessment;
     private Instructor instructor;
     private int lastInsert;
 
@@ -278,8 +281,42 @@ public class StudentSchedulerRepo {
         }
         return allAssessments;
     }
+    public Term getTermById(int termID) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            term = termDao.getTerm(termID);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return term;
+    }
 
-    public Instructor getInstructor(int instructorID) {
+    public Course getCourseById(int courseID) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            course = courseDao.getCourse(courseID);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return course;
+    }
+
+    public Assessment getAssessmentById(int assessmentID) {
+        StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
+            assessment = assessmentDao.getAssessment(assessmentID);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return assessment;
+    }
+    public Instructor getInstructorById(int instructorID) {
         StudentSchedulerRepo.dbExecutorWriterSvc.execute(() -> {
             instructor = instructorDao.getInstructor(instructorID);
         });

@@ -19,8 +19,6 @@ import com.thecodebarista.c196_studentscheduler.entities.Instructor;
 import java.util.List;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolder> {
-    protected static boolean COURSE_EDIT_MODE;
-
     private List<Course> Courses;
     private final Context context;
     private final LayoutInflater inflater;
@@ -46,7 +44,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
                 public void onClick(View view) {
                     int position = getBindingAdapterPosition();
                     final Course latest = Courses.get(position);
-                    com.thecodebarista.c196_studentscheduler.UI.CoursesAdapter.COURSE_EDIT_MODE = false;
+                    com.thecodebarista.c196_studentscheduler.UI.CourseDetailsActivity.COURSE_EDIT_MODE = false;
                     Intent intent= new Intent(context,CourseDetailsActivity.class);
                     intent.putExtra("courseID", latest.getCourseID());
                     System.out.println("Selected - " + latest.getTermID());

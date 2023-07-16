@@ -16,9 +16,6 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 import java.util.List;
 
 public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.TermsViewHolder> {
-    protected static boolean TERM_EDIT_MODE;
-    protected static boolean SHOW_SAVE_BUTTON;
-
     private List<Term> Terms;
     private final Context context;
     private final LayoutInflater inflater;
@@ -45,14 +42,14 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.TermsViewHol
                 public void onClick(View view) {
                     int position = getBindingAdapterPosition();
                     final Term latest = Terms.get(position);
-                    com.thecodebarista.c196_studentscheduler.UI.TermsAdapter.TERM_EDIT_MODE = false;
+                    com.thecodebarista.c196_studentscheduler.UI.TermDetailsActivity.TERM_EDIT_MODE = false;
                     Intent intent= new Intent(context,TermDetailsActivity.class);
                     intent.putExtra("termID", latest.getTermID());
                     System.out.println("Selected - " + latest.getTermID());
                     intent.putExtra("title", latest.getTitle());
                     intent.putExtra("startDt", latest.getStartDt());
                     intent.putExtra("endDt", latest.getEndDt());
-                    intent.putExtra("inEditMode", com.thecodebarista.c196_studentscheduler.UI.TermsAdapter.TERM_EDIT_MODE);
+                    intent.putExtra("inEditMode", false);
                     context.startActivity(intent);
                 }
             });

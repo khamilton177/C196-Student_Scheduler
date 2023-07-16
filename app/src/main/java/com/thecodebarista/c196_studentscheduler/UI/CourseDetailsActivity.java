@@ -31,12 +31,13 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CourseDetailsActivity extends AppCompatActivity implements DegreePlanner {
-    private EditText termIdTextInput;
-    private EditText titleTextInput;
+    protected static boolean COURSE_EDIT_MODE;
     final Calendar dpStartDtCalendar = Calendar.getInstance();
     final Calendar dpEndDtCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener dpStartDate;
     DatePickerDialog.OnDateSetListener dpEndDate;
+    private EditText termIdTextInput;
+    private EditText titleTextInput;
     private EditText startTextInput;
     private EditText endTextInput;
     private EditText statusTextInput;
@@ -91,7 +92,7 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         endDt = getIntent().getStringExtra("endDt");
         instructorID = getIntent().getIntExtra("instructorID",-1);
         if (courseID > 0 ) {
-            selectedInstructor = studentSchedulerRepo.getInstructor(getIntent().getIntExtra("spinnerInstructor", -1));
+            selectedInstructor = studentSchedulerRepo.getInstructorById(getIntent().getIntExtra("spinnerInstructor", -1));
             coursePosition = getIntent().getIntExtra("coursePosition", -1);
             instructorPhone.setText(String.format("Phone: %s", selectedInstructor.getPhoneNumber()));
             instructorEmail.setText(String.format("Email: %s", selectedInstructor.getEmail()));
@@ -164,6 +165,8 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
 
     public void onCheckSaveClick(View view) {
         Course course;
+        boolean startChanged = false;
+        boolean endChanged = false;
         System.out.println("Save button clicked. Course ID is- " + courseID);
         course = createCourseDetailData();
         System.out.println("This course ID is- " + course.getCourseID());
@@ -173,23 +176,32 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
             studentSchedulerRepo.insert(course);
         }
         else{
+            if (selectedCourse != null) {
+                startChanged = !selectedCourse.getStartDt().equals(course.getStartDt());
+                endChanged = !selectedCourse.getEndDt().equals(course.getEndDt());
+
+                /*System.out.println("Input Date: " + startTextInput.getText().toString());
+                System.out.println("DB Date: " + selectedCourse.getStartDt());
+                System.out.println("Changed? " + startChanged);*/
+            }
             studentSchedulerRepo.update(course);
             System.out.println("Course List INDEX: " + coursePosition);
         }
 
         //Process pending Notifications for Start date for new and updated Start dates.
-        if ((course.getCourseID() == 0) || (course.getCourseID() > 0 && !startTextInput.getText().toString().equals(course.getStartDt()))) {
+        if ((course.getCourseID() == 0) || (course.getCourseID() > 0 && startChanged)) {
             Long startTrigger = CreateTriggerDate(startTextInput.getText().toString());
+            System.out.println("Trigger: " + startTrigger);
             CreatePendingIntent(CourseDetailsActivity.this, startTrigger, titleTextInput.getText().toString(), COURSE_START_DATE_NOTIFY, startTextInput.getText().toString());
         }
 
         //Process pending Notifications for End date for new and updated End dates.
-        if ((course.getCourseID() == 0) || (course.getCourseID() > 0 && !endTextInput.getText().toString().equals(course.getEndDt()))) {
+        if ((course.getCourseID() == 0) || (course.getCourseID() > 0 && endChanged)) {
             Long endTrigger = CreateTriggerDate(endTextInput.getText().toString());
             CreatePendingIntent(CourseDetailsActivity.this, endTrigger, titleTextInput.getText().toString(), COURSE_END_DATE_NOTIFY, endTextInput.getText().toString());
         }
 
-        selectedInstructor = studentSchedulerRepo.getInstructor(Integer.parseInt(instructorIdTextInput.getText().toString()));
+        selectedInstructor = studentSchedulerRepo.getInstructorById(Integer.parseInt(instructorIdTextInput.getText().toString()));
         instructorPhone.setText(String.format("Phone: %s", selectedInstructor.getPhoneNumber()));
         instructorEmail.setText(String.format("Email: %s", selectedInstructor.getEmail()));
         if (course.getCourseID() == 0) {
@@ -198,6 +210,7 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         setCourseTextEditable(false);
         spinnerStatus.setEnabled(false);
         spinnerInstructor.setEnabled(false);
+        com.thecodebarista.c196_studentscheduler.UI.CourseDetailsActivity.COURSE_EDIT_MODE = false;
     }
 
     @Override
@@ -216,6 +229,10 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
         intentSetCourseDetailData();
+
+        if (savedInstanceState != null) {
+            setCourseTextEditable(COURSE_EDIT_MODE);
+        }
 
         // Create Statuses list for Spinner
         ArrayList<String> courseStatuses = new ArrayList<>();
@@ -316,10 +333,10 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
                     System.out.println("ADD ASSESSMENT CLICKED. COURSE ID: " + courseID);
                 }
 
-                com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE = true;
+                com.thecodebarista.c196_studentscheduler.UI.AssessmentDetailsActivity.ASSESSMENT_EDIT_MODE = true;
                 Intent intent = new Intent(CourseDetailsActivity.this, AssessmentDetailsActivity.class);
                 intent.putExtra("courseID", courseID);
-                intent.putExtra("inEditMode", com.thecodebarista.c196_studentscheduler.UI.AssessmentsAdapter.ASSESSMENT_EDIT_MODE);
+                intent.putExtra("inEditMode", true);
                 startActivity(intent);
             }
         });
@@ -398,9 +415,12 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
                 System.out.println("Course Term- " + termID);
                 System.out.println("Course Instructor- " + instructorID);
                 System.out.println("Course Status Spinner- " + statusTextInput.getText().toString());
+                com.thecodebarista.c196_studentscheduler.UI.CourseDetailsActivity.COURSE_EDIT_MODE = true;
                 setCourseTextEditable(true);
                 spinnerStatus.setEnabled(true);
                 spinnerInstructor.setEnabled(true);
+                studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
+                selectedCourse = studentSchedulerRepo.getCourseById(courseID);
                 return false;
 
             case R.id.delete:
@@ -431,6 +451,9 @@ public class CourseDetailsActivity extends AppCompatActivity implements DegreePl
                 return true;
 
             case R.id.courseNotify:
+                System.out.println("Course ID for Manual Notify- " + courseID);
+                System.out.println("Manual Notify Start Date- " + startTextInput.getText().toString());
+                System.out.println("Manual Notify End- " + endTextInput.getText().toString());
                 createManualNotify(CourseDetailsActivity.this, "Course", titleTextInput.getText().toString(), startTextInput.getText().toString(), endTextInput.getText().toString());
                 return false;
         }

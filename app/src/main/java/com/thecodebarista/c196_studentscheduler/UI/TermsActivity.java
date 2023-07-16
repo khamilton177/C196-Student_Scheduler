@@ -22,6 +22,7 @@ import com.thecodebarista.c196_studentscheduler.entities.Term;
 import java.util.List;
 
 public class TermsActivity extends AppCompatActivity {
+    private static final String SAVED_STATE = "savedState";
     private StudentSchedulerRepo studentSchedulerRepo;
 
     /**
@@ -53,9 +54,9 @@ public class TermsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                com.thecodebarista.c196_studentscheduler.UI.TermsAdapter.TERM_EDIT_MODE = true;
+                com.thecodebarista.c196_studentscheduler.UI.TermDetailsActivity.TERM_EDIT_MODE = true;
                 Intent intent = new Intent(TermsActivity.this, TermDetailsActivity.class);
-                intent.putExtra("inEditMode", com.thecodebarista.c196_studentscheduler.UI.TermsAdapter.TERM_EDIT_MODE);
+                intent.putExtra("inEditMode", true);
                 startActivity(intent);
             }
         });

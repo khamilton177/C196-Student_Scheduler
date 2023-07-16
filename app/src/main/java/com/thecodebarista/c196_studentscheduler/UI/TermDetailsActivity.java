@@ -26,6 +26,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class TermDetailsActivity extends AppCompatActivity implements DegreePlanner{
+    protected static boolean TERM_EDIT_MODE;
+    private static final String SAVED_STATE = "savedState";
     final Calendar dpStartDtCalendar = Calendar.getInstance();
     final Calendar dpEndDtCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener dpStartDate;
@@ -113,11 +115,12 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
         else{
             studentSchedulerRepo.update(term);
         }
-        setTermTextEditable(false);
+
         if (term.getTermID() == 0) {
             termID = studentSchedulerRepo.getLastTermInsert();
         }
-        //fabCheckSave.setVisibility(View.INVISIBLE);
+        setTermTextEditable(false);
+        com.thecodebarista.c196_studentscheduler.UI.TermDetailsActivity.TERM_EDIT_MODE = false;
     }
 
     @Override
@@ -136,7 +139,10 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_details);
         intentSetTermDetailData();
-        //fabCheckSave.setVisibility(View.INVISIBLE);
+
+        if (savedInstanceState != null) {
+            setTermTextEditable(TERM_EDIT_MODE);
+        }
 
         // Courses List on Terms Detail Page
         if (studentSchedulerRepo == null) {
@@ -165,10 +171,10 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
                 }
 
                 System.out.println("ADD COURSE CLICKED FOR TERM- " + termID);
-                com.thecodebarista.c196_studentscheduler.UI.CoursesAdapter.COURSE_EDIT_MODE = true;
+                com.thecodebarista.c196_studentscheduler.UI.CourseDetailsActivity.COURSE_EDIT_MODE = true;
                 Intent intent = new Intent(TermDetailsActivity.this, CourseDetailsActivity.class);
                 intent.putExtra("termID", termID);
-                intent.putExtra("inEditMode", com.thecodebarista.c196_studentscheduler.UI.CoursesAdapter.COURSE_EDIT_MODE);
+                intent.putExtra("inEditMode", true);
                 startActivity(intent);
             }
         });
@@ -236,7 +242,7 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_details, menu);
-        getMenuInflater().inflate(R.menu.menu_term_details, menu);
+        //getMenuInflater().inflate(R.menu.menu_term_details, menu);
         return true;
     }
 
@@ -244,8 +250,8 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
         switch (item.getItemId()) {
             case R.id.edit:
                 System.out.println("Term to EDIT- " + termID);
+                com.thecodebarista.c196_studentscheduler.UI.TermDetailsActivity.TERM_EDIT_MODE = true;
                 setTermTextEditable(true);
-                //fabCheckSave.setVisibility(View.VISIBLE);
                 return false;
 
             case R.id.delete:
@@ -269,7 +275,7 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
                 return false;
 
             case R.id.deleteAllTermCourses:
-                System.out.println("Term  to DELETE- " + termID);
+                System.out.println("Term Courses to DELETE- " + termID);
                 setTermTextEditable(false);
                 //fabCheckSave.setVisibility(View.INVISIBLE);
                 studentSchedulerRepo = new StudentSchedulerRepo(getApplication());
@@ -277,11 +283,12 @@ public class TermDetailsActivity extends AppCompatActivity implements DegreePlan
                 for (Course course : studentSchedulerRepo.getAllTermCourses(termID)) {
                     if (course.getTermID() == termID) {
                         selectedCourse = course;
+                        System.out.println("Deleting Course " + selectedCourse.getCourseID());
                         studentSchedulerRepo.delete(selectedCourse);
                     }
                 }
                 finish();
-                return true;
+                //return true;
         }
         return super.onOptionsItemSelected(item);
     }
